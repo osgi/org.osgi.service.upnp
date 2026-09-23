@@ -1,0 +1,12 @@
+# Set javac settings from JDT prefs
+
+Bundle-Vendor				= Samsung
+Bundle-Activator			= ${p}.UPnPController
+Bundle-Description			= Samsung UPnP CD stack
+
+Import-Service				= org.osgi.service.upnp.UPnPDevice
+Export-Service				= org.osgi.service.upnp.UPnPListener
+
+-privatepackage 			= ${p}.*
+
+p: org.osgi.impl.service.upnp.cd

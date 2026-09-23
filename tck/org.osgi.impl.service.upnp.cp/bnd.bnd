@@ -1,5 +1,4 @@
 # Set javac settings from JDT prefs
--include: ${includes}/jdt.bnd, ${includes}/cmpn.bnd
 
 Bundle-Vendor				= Samsung
 Bundle-Activator			= org.osgi.impl.service.upnp.cp.UPnPBundleActivator
@@ -11,9 +10,4 @@ Export-Package				= \
 
 -privatepackage 			= ${p}.*;-split-package:=first
 
--buildpath = \
-	org.osgi.service.upnp;version=latest, \
-    org.osgi.framework;maven-scope=provided;version=1.8, \
-    org.osgi.util.tracker;maven-scope=provided;version=1.5, \
-    org.osgi.service.http;version=1.2, \
-	org.osgi.impl.bundle.servlet; 	version=2.1
+p: org.osgi.impl.service.upnp.cp

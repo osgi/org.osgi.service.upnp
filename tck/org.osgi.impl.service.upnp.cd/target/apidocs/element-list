@@ -1,0 +1,5 @@
+org.osgi.impl.service.upnp.cd
+org.osgi.impl.service.upnp.cd.control
+org.osgi.impl.service.upnp.cd.event
+org.osgi.impl.service.upnp.cd.ssdp
+org.osgi.impl.service.upnp.cd.util

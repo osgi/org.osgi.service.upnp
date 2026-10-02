@@ -1,0 +1,7 @@
+org.osgi.test.cases.upnp.tbc
+org.osgi.test.cases.upnp.tbc.device
+org.osgi.test.cases.upnp.tbc.device.description
+org.osgi.test.cases.upnp.tbc.device.discovery
+org.osgi.test.cases.upnp.tbc.device.event
+org.osgi.test.cases.upnp.tbc.export
+org.osgi.test.cases.upnp.tbc.parser

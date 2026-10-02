@@ -1,0 +1,1762 @@
+<?xml version='1.0' encoding='utf-8'?>
+<top>
+  <package name='org.osgi.service.upnp' fqn='org.osgi.service.upnp' qn='org.osgi.service.upnp'>
+<org.osgi.annotation.versioning.Version><value>1.2</value>
+</org.osgi.annotation.versioning.Version>
+   <lead>
+UPnP Package Version 1.2.
+   </lead>
+   <description>
+UPnP Package Version 1.2.
+ 
+ <p>
+ Bundles wishing to use this package must list the package in the
+ Import-Package header of the bundle's manifest. This package has two types of
+ users: the consumers that use the API in this package and the providers that
+ implement the API in this package.
+ 
+ </p><p>
+ Example import for consumers using the API in this package:
+ </p><p>
+ {@code  Import-Package: org.osgi.service.upnp; version="[1.2,2.0)"}
+ </p><p>
+ Example import for providers implementing the API in this package:
+ </p><p>
+ {@code  Import-Package: org.osgi.service.upnp; version="[1.2,1.3)"}</p>
+   </description>
+<author>@author $Id: b67a608094acb63f3e332e7b87d465be779fa60d $</author>
+  <class name='UPnPAction' fqn='org.osgi.service.upnp.UPnPAction' qn='UPnPAction' package='org.osgi.service.upnp' typeParam='' modifiers='public abstract' interface='yes' kind='INTERFACE'>
+   <lead>
+A UPnP action.
+   </lead>
+   <description>
+A UPnP action.
+ 
+ Each UPnP service contains zero or more actions. Each action may have zero or
+ more UPnP state variables as arguments.
+   </description>
+<author>@author $Id: 848664758445d1510264b23edc70abf71d6439ed $</author>
+    <method name='getName' fqn='org.osgi.service.upnp.UPnPAction.getName' qn='UPnPAction.getName()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='String' qualifiedTypeName='java.lang.String' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the action name.
+   </lead>
+   <description>
+Returns the action name.
+ 
+ The action name corresponds to the {@code name} field in the
+ {@code actionList} of the service description.
+ <ul>
+ <li>For standard actions defined by a UPnP Forum working committee,
+ action names must not begin with {@code X_ } nor {@code  A_}.</li>
+ <li>For non-standard actions specified by a UPnP vendor and added to a
+ standard service, action names must begin with {@code X_}.</li>
+ </ul>
+ 
+ <p>
+ This method must continue to return the action name after the UPnP action
+ has been removed from the network.</p>
+   </description>
+
+
+<return>Name of action, must not contain a hyphen character or a hash
+         character</return>
+
+
+
+     </method>
+    <method name='getReturnArgumentName' fqn='org.osgi.service.upnp.UPnPAction.getReturnArgumentName' qn='UPnPAction.getReturnArgumentName()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='String' qualifiedTypeName='java.lang.String' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the name of the designated return argument.
+   </lead>
+   <description>
+Returns the name of the designated return argument.
+ <p>
+ One of the output arguments can be flagged as a designated return
+ argument.
+ 
+ </p><p>
+ This method must continue to return the action return argument name after
+ the UPnP action has been removed from the network.</p>
+   </description>
+
+
+<return>The name of the designated return argument or {@code null} if
+         none is marked.</return>
+
+
+
+     </method>
+    <method name='getInputArgumentNames' fqn='org.osgi.service.upnp.UPnPAction.getInputArgumentNames' qn='UPnPAction.getInputArgumentNames()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='String[]' qualifiedTypeName='java.lang.String[]' typeArgs='' dimension='[]' signature='()' flatSignature='()'>
+   <lead>
+Lists all input arguments for this action.
+   </lead>
+   <description>
+Lists all input arguments for this action.
+ <p>
+ Each action may have zero or more input arguments.
+ 
+ </p><p>
+ This method must continue to return the action input argument names after
+ the UPnP action has been removed from the network.</p>
+   </description>
+
+
+<return>Array of input argument names or {@code null} if no input
+         arguments.</return>
+
+
+<a href='#UPnPStateVariable'>UPnPStateVariable</a>
+     </method>
+    <method name='getOutputArgumentNames' fqn='org.osgi.service.upnp.UPnPAction.getOutputArgumentNames' qn='UPnPAction.getOutputArgumentNames()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='String[]' qualifiedTypeName='java.lang.String[]' typeArgs='' dimension='[]' signature='()' flatSignature='()'>
+   <lead>
+List all output arguments for this action.
+   </lead>
+   <description>
+List all output arguments for this action.
+ 
+ <p>
+ This method must continue to return the action output argument names
+ after the UPnP action has been removed from the network.</p>
+   </description>
+
+
+<return>Array of output argument names or {@code null} if there are no
+         output arguments.</return>
+
+
+<a href='#UPnPStateVariable'>UPnPStateVariable</a>
+     </method>
+    <method name='getStateVariable' fqn='org.osgi.service.upnp.UPnPAction.getStateVariable' qn='UPnPAction.getStateVariable(String)' package='org.osgi.service.upnp' modifiers='public abstract' typeName='UPnPStateVariable' qualifiedTypeName='org.osgi.service.upnp.UPnPStateVariable' typeArgs='' dimension='' signature='(java.lang.String)' flatSignature='(String)'>
+   <lead>
+Finds the state variable associated with an argument name.
+   </lead>
+   <description>
+Finds the state variable associated with an argument name.
+ 
+ Helps to resolve the association of state variables with argument names
+ in UPnP actions.
+   </description>
+
+<param name='argumentName'>The name of the UPnP action argument.</param>
+
+<return>State variable associated with the named argument or {@code null}
+         if there is no such argument.</return>
+
+<throws name='IllegalStateException'>if the UPnP action has been removed from
+         the network.</throws>
+
+<a href='#UPnPStateVariable'>UPnPStateVariable</a>
+    <parameter name='argumentName' dimension='' typeName='String' fqn='java.lang.String' varargs='false'/>
+     </method>
+    <method name='invoke' fqn='org.osgi.service.upnp.UPnPAction.invoke' qn='UPnPAction.invoke(Dictionary)' package='org.osgi.service.upnp' modifiers='public abstract' typeName='Dictionary&lt;String, Object&gt;' qualifiedTypeName='java.util.Dictionary' typeArgs='' dimension='' signature='(java.util.Dictionary&lt;java.lang.String,java.lang.Object&gt;)' flatSignature='(Dictionary)'>
+   <lead>
+Invokes the action.
+   </lead>
+   <description>
+Invokes the action.
+ 
+ The input and output arguments are both passed as {@code Dictionary}
+ objects. Each entry in the {@code Dictionary} object has a {@code String}
+ object as key representing the argument name and the value is the
+ argument itself. The class of an argument value must be assignable from
+ the class of the associated UPnP state variable.
+ 
+ The input argument {@code Dictionary} object must contain exactly those
+ arguments listed by {@code getInputArguments} method. The output argument
+ {@code Dictionary} object will contain exactly those arguments listed by
+ {@code getOutputArguments} method.
+   </description>
+
+<param name='args'>A {@code Dictionary} of arguments. Must contain the correct
+        set and type of arguments for this action. May be {@code null} if
+        no input arguments exist.</param>
+
+<return>A {@code Dictionary} with the output arguments. {@code null} if
+         the action has no output arguments.</return>
+
+<throws name='UPnPException'>A UPnP error has occurred.</throws>
+<throws name='IllegalStateException'>if the UPnP action has been removed from
+         the network.</throws>
+<throws name='Exception'>The execution fails for some reason.</throws>
+
+<a href='#UPnPStateVariable'>UPnPStateVariable</a>
+    <parameter name='args' dimension='' typeName='Dictionary&lt;String, Object&gt;' fqn='java.util.Dictionary' varargs='false'/>
+<exception name='Exception' fqn='java.lang.Exception'/>
+     </method>
+  </class>
+  <class name='UPnPDevice' fqn='org.osgi.service.upnp.UPnPDevice' qn='UPnPDevice' package='org.osgi.service.upnp' typeParam='' modifiers='public abstract' interface='yes' kind='INTERFACE'>
+   <lead>
+Represents a UPnP device.
+   </lead>
+   <description>
+Represents a UPnP device.
+ 
+ For each UPnP root and embedded device, an object is registered with the
+ framework under the {@code UPnPDevice} interface.
+ <p>
+ The relationship between a root device and its embedded devices can be
+ deduced using the {@code UPnPDevice.CHILDREN_UDN} and
+ {@code UPnPDevice.PARENT_UDN} service registration properties.
+ </p><p>
+ The values of the UPnP property names are defined by the UPnP Forum.
+ </p><p>
+ All values of the UPnP properties are obtained from the device using the
+ device's default locale.
+ </p><p>
+ If an application wants to query for a set of localized property values, it
+ has to use the method {@code UPnPDevice.getDescriptions(String locale)}.</p>
+   </description>
+<author>@author $Id: 2d6f1cc601a87117fef337d55e7fe2f8ee887b77 $</author>
+    <method name='getService' fqn='org.osgi.service.upnp.UPnPDevice.getService' qn='UPnPDevice.getService(String)' package='org.osgi.service.upnp' modifiers='public abstract' typeName='UPnPService' qualifiedTypeName='org.osgi.service.upnp.UPnPService' typeArgs='' dimension='' signature='(java.lang.String)' flatSignature='(String)'>
+   <lead>
+Locates a specific service by its service id.
+   </lead>
+   <description>
+Locates a specific service by its service id.
+   </description>
+
+<param name='serviceId'>The service id</param>
+
+<return>The requested service or null if not found.</return>
+
+<throws name='IllegalStateException'>if the UPnP device has been removed from
+         the network.</throws>
+
+
+    <parameter name='serviceId' dimension='' typeName='String' fqn='java.lang.String' varargs='false'/>
+     </method>
+    <method name='getServices' fqn='org.osgi.service.upnp.UPnPDevice.getServices' qn='UPnPDevice.getServices()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='UPnPService[]' qualifiedTypeName='org.osgi.service.upnp.UPnPService[]' typeArgs='' dimension='[]' signature='()' flatSignature='()'>
+   <lead>
+Lists all services provided by this device.
+   </lead>
+   <description>
+Lists all services provided by this device.
+   </description>
+
+
+<return>Array of services or {@code null} if no services are available.</return>
+
+<throws name='IllegalStateException'>if the UPnP device has been removed from
+         the network.</throws>
+
+
+     </method>
+    <method name='getIcons' fqn='org.osgi.service.upnp.UPnPDevice.getIcons' qn='UPnPDevice.getIcons(String)' package='org.osgi.service.upnp' modifiers='public abstract' typeName='UPnPIcon[]' qualifiedTypeName='org.osgi.service.upnp.UPnPIcon[]' typeArgs='' dimension='[]' signature='(java.lang.String)' flatSignature='(String)'>
+   <lead>
+Lists all icons for this device in a given locale.
+   </lead>
+   <description>
+Lists all icons for this device in a given locale.
+ 
+ The UPnP specification allows a device to present different icons based
+ on the client's locale.
+   </description>
+
+<param name='locale'>A language tag as defined by RFC 1766 and maintained by ISO
+        639. Examples include "{@code de}", "{@code en}" or "
+        {@code en-US}". The default locale of the device is specified by
+        passing a {@code null} argument.</param>
+
+<return>Array of icons or null if no icons are available.</return>
+
+<throws name='IllegalStateException'>if the UPnP device has been removed from
+         the network.</throws>
+
+
+    <parameter name='locale' dimension='' typeName='String' fqn='java.lang.String' varargs='false'/>
+     </method>
+    <method name='getDescriptions' fqn='org.osgi.service.upnp.UPnPDevice.getDescriptions' qn='UPnPDevice.getDescriptions(String)' package='org.osgi.service.upnp' modifiers='public abstract' typeName='Dictionary&lt;String, Object&gt;' qualifiedTypeName='java.util.Dictionary' typeArgs='' dimension='' signature='(java.lang.String)' flatSignature='(String)'>
+   <lead>
+Get a set of localized UPnP properties.
+   </lead>
+   <description>
+Get a set of localized UPnP properties.
+ 
+ The UPnP specification allows a device to present different device
+ properties based on the client's locale. The properties used to register
+ the UPnPDevice service in the OSGi registry are based on the device's
+ default locale. To obtain a localized set of the properties, an
+ application can use this method.
+ <p>
+ Not all properties might be available in all locales. This method does
+ <b>not </b> substitute missing properties with their default locale
+ versions.
+ </p><p>
+ This method must continue to return the properties after the UPnP device
+ has been removed from the network.</p>
+   </description>
+
+<param name='locale'>A language tag as defined by RFC 1766 and maintained by ISO
+        639. Examples include "{@code de}", "{@code en}" or "
+        {@code en-US}". The default locale of the device is specified by
+        passing a {@code null} argument.</param>
+
+<return>Dictionary mapping property name Strings to property value
+         Strings</return>
+
+
+
+    <parameter name='locale' dimension='' typeName='String' fqn='java.lang.String' varargs='false'/>
+     </method>
+    <field name='MATCH_GENERIC' fqn='org.osgi.service.upnp.UPnPDevice.MATCH_GENERIC' qn='UPnPDevice.MATCH_GENERIC' package='org.osgi.service.upnp' modifiers='public static final' typeName='int' qualifiedTypeName='int' dimension='' constantValue='1'>
+   <lead>
+Constant for the UPnP device match scale, indicating a generic match for
+ the device.
+   </lead>
+   <description>
+Constant for the UPnP device match scale, indicating a generic match for
+ the device. Value is 1.
+   </description>
+
+     </field>
+    <field name='MATCH_TYPE' fqn='org.osgi.service.upnp.UPnPDevice.MATCH_TYPE' qn='UPnPDevice.MATCH_TYPE' package='org.osgi.service.upnp' modifiers='public static final' typeName='int' qualifiedTypeName='int' dimension='' constantValue='3'>
+   <lead>
+Constant for the UPnP device match scale, indicating a match with the
+ device type.
+   </lead>
+   <description>
+Constant for the UPnP device match scale, indicating a match with the
+ device type. Value is 3.
+   </description>
+
+     </field>
+    <field name='MATCH_MANUFACTURER_MODEL' fqn='org.osgi.service.upnp.UPnPDevice.MATCH_MANUFACTURER_MODEL' qn='UPnPDevice.MATCH_MANUFACTURER_MODEL' package='org.osgi.service.upnp' modifiers='public static final' typeName='int' qualifiedTypeName='int' dimension='' constantValue='7'>
+   <lead>
+Constant for the UPnP device match scale, indicating a match with the
+ device model.
+   </lead>
+   <description>
+Constant for the UPnP device match scale, indicating a match with the
+ device model. Value is 7.
+   </description>
+
+     </field>
+    <field name='MATCH_MANUFACTURER_MODEL_REVISION' fqn='org.osgi.service.upnp.UPnPDevice.MATCH_MANUFACTURER_MODEL_REVISION' qn='UPnPDevice.MATCH_MANUFACTURER_MODEL_REVISION' package='org.osgi.service.upnp' modifiers='public static final' typeName='int' qualifiedTypeName='int' dimension='' constantValue='15'>
+   <lead>
+Constant for the UPnP device match scale, indicating a match with the
+ device revision.
+   </lead>
+   <description>
+Constant for the UPnP device match scale, indicating a match with the
+ device revision. Value is 15.
+   </description>
+
+     </field>
+    <field name='MATCH_MANUFACTURER_MODEL_REVISION_SERIAL' fqn='org.osgi.service.upnp.UPnPDevice.MATCH_MANUFACTURER_MODEL_REVISION_SERIAL' qn='UPnPDevice.MATCH_MANUFACTURER_MODEL_REVISION_SERIAL' package='org.osgi.service.upnp' modifiers='public static final' typeName='int' qualifiedTypeName='int' dimension='' constantValue='31'>
+   <lead>
+Constant for the UPnP device match scale, indicating a match with the
+ device revision and the serial number.
+   </lead>
+   <description>
+Constant for the UPnP device match scale, indicating a match with the
+ device revision and the serial number. Value is 31.
+   </description>
+
+     </field>
+    <field name='DEVICE_CATEGORY' fqn='org.osgi.service.upnp.UPnPDevice.DEVICE_CATEGORY' qn='UPnPDevice.DEVICE_CATEGORY' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP"'>
+   <lead>
+Constant for the value of the service property {@code DEVICE_CATEGORY}
+ used for all UPnP devices.
+   </lead>
+   <description>
+Constant for the value of the service property {@code DEVICE_CATEGORY}
+ used for all UPnP devices. Value is "UPnP".
+   </description>
+<a>org.osgi.service.device.Constants.DEVICE_CATEGORY</a>
+     </field>
+    <field name='UPNP_EXPORT' fqn='org.osgi.service.upnp.UPnPDevice.UPNP_EXPORT' qn='UPnPDevice.UPNP_EXPORT' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.export"'>
+   <lead>
+The {@code UPnP.export} service property is a hint that marks a device to
+ be picked up and exported by the UPnP Service.
+   </lead>
+   <description>
+The {@code UPnP.export} service property is a hint that marks a device to
+ be picked up and exported by the UPnP Service. Imported devices do not
+ have this property set. The registered property requires no value.
+ <p>
+ The UPNP_EXPORT string is "UPnP.export".</p>
+   </description>
+
+     </field>
+    <field name='UDN' fqn='org.osgi.service.upnp.UPnPDevice.UDN' qn='UPnPDevice.UDN' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.device.UDN"'>
+   <lead>
+Property key for the Unique Device Name (UDN) property.
+   </lead>
+   <description>
+Property key for the Unique Device Name (UDN) property. It is the unique
+ identifier of an instance of a {@code UPnPDevice}. The value of the
+ property is a {@code String} object of the Device UDN. Value of the key
+ is "UPnP.device.UDN". This property must be set.
+   </description>
+
+     </field>
+    <field name='ID' fqn='org.osgi.service.upnp.UPnPDevice.ID' qn='UPnPDevice.ID' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.device.UDN"'>
+   <lead>
+Property key for the Unique Device ID property.
+   </lead>
+   <description>
+Property key for the Unique Device ID property. This property is an alias
+ to {@code UPnPDevice.UDN}. It is merely provided for reasons of symmetry
+ with the {@code UPnPService.ID} property. The value of the property is a
+ {@code String} object of the Device UDN. The value of the key is
+ "UPnP.device.UDN".
+   </description>
+
+     </field>
+    <field name='TYPE' fqn='org.osgi.service.upnp.UPnPDevice.TYPE' qn='UPnPDevice.TYPE' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.device.type"'>
+   <lead>
+Property key for the UPnP Device Type property.
+   </lead>
+   <description>
+Property key for the UPnP Device Type property. Some standard property
+ values are defined by the Universal Plug and Play Forum. The type string
+ also includes a version number as defined in the UPnP specification. This
+ property must be set.
+ <p>
+ For standard devices defined by a UPnP Forum working committee, this must
+ consist of the following components in the given order separated by
+ colons:
+ </p><ul>
+ <li>{@code urn}</li>
+ <li>schemas-upnp-org</li>
+ <li>{@code device}</li>
+ <li>a device type suffix</li>
+ <li>an integer device version</li>
+ </ul>
+ For non-standard devices specified by UPnP vendors following components
+ must be specified in the given order separated by colons:
+ <ul>
+ <li>{@code urn}</li>
+ <li>an ICANN domain name owned by the vendor</li>
+ <li>{@code device}</li>
+ <li>a device type suffix</li>
+ <li>an integer device version</li>
+ </ul>
+ <p>
+ To allow for backward compatibility the UPnP driver must automatically
+ generate additional Device Type property entries for smaller versions
+ than the current one. If for example a device announces its type as
+ version 3, then properties for versions 2 and 1 must be automatically
+ generated.
+ </p><p>
+ In the case of exporting a UPnPDevice, the highest available version must
+ be announced on the network.
+ </p><p>
+ Syntax Example: {@code urn:schemas-upnp-org:device:deviceType:v}
+ </p><p>
+ The value is "UPnP.device.type".</p>
+   </description>
+
+     </field>
+    <field name='MANUFACTURER' fqn='org.osgi.service.upnp.UPnPDevice.MANUFACTURER' qn='UPnPDevice.MANUFACTURER' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.device.manufacturer"'>
+   <lead>
+Mandatory property key for the device manufacturer's property.
+   </lead>
+   <description>
+Mandatory property key for the device manufacturer's property. The
+ property value holds a String representation of the device manufacturer's
+ name. Value is "UPnP.device.manufacturer".
+   </description>
+
+     </field>
+    <field name='MODEL_NAME' fqn='org.osgi.service.upnp.UPnPDevice.MODEL_NAME' qn='UPnPDevice.MODEL_NAME' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.device.modelName"'>
+   <lead>
+Mandatory property key for the device model name.
+   </lead>
+   <description>
+Mandatory property key for the device model name. The property value
+ holds a {@code String} object giving more information about the device
+ model. Value is "UPnP.device.modelName".
+   </description>
+
+     </field>
+    <field name='FRIENDLY_NAME' fqn='org.osgi.service.upnp.UPnPDevice.FRIENDLY_NAME' qn='UPnPDevice.FRIENDLY_NAME' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.device.friendlyName"'>
+   <lead>
+Mandatory property key for a short user friendly version of the device
+ name.
+   </lead>
+   <description>
+Mandatory property key for a short user friendly version of the device
+ name. The property value holds a {@code String} object with the user
+ friendly name of the device. Value is "UPnP.device.friendlyName".
+   </description>
+
+     </field>
+    <field name='MANUFACTURER_URL' fqn='org.osgi.service.upnp.UPnPDevice.MANUFACTURER_URL' qn='UPnPDevice.MANUFACTURER_URL' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.device.manufacturerURL"'>
+   <lead>
+Optional property key for a URL to the device manufacturers Web site.
+   </lead>
+   <description>
+Optional property key for a URL to the device manufacturers Web site. The
+ value of the property is a {@code String} object representing the URL.
+ Value is "UPnP.device.manufacturerURL".
+   </description>
+
+     </field>
+    <field name='MODEL_DESCRIPTION' fqn='org.osgi.service.upnp.UPnPDevice.MODEL_DESCRIPTION' qn='UPnPDevice.MODEL_DESCRIPTION' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.device.modelDescription"'>
+   <lead>
+Optional (but recommended) property key for a {@code String} object with
+ a long description of the device for the end user.
+   </lead>
+   <description>
+Optional (but recommended) property key for a {@code String} object with
+ a long description of the device for the end user. The value is
+ "UPnP.device.modelDescription".
+   </description>
+
+     </field>
+    <field name='MODEL_NUMBER' fqn='org.osgi.service.upnp.UPnPDevice.MODEL_NUMBER' qn='UPnPDevice.MODEL_NUMBER' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.device.modelNumber"'>
+   <lead>
+Optional (but recommended) property key for a {@code String} class typed
+ property holding the model number of the device.
+   </lead>
+   <description>
+Optional (but recommended) property key for a {@code String} class typed
+ property holding the model number of the device. Value is
+ "UPnP.device.modelNumber".
+   </description>
+
+     </field>
+    <field name='MODEL_URL' fqn='org.osgi.service.upnp.UPnPDevice.MODEL_URL' qn='UPnPDevice.MODEL_URL' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.device.modelURL"'>
+   <lead>
+Optional property key for a {@code String} typed property holding a
+ string representing the URL to the Web site for this model.
+   </lead>
+   <description>
+Optional property key for a {@code String} typed property holding a
+ string representing the URL to the Web site for this model. Value is
+ "UPnP.device.modelURL".
+   </description>
+
+     </field>
+    <field name='SERIAL_NUMBER' fqn='org.osgi.service.upnp.UPnPDevice.SERIAL_NUMBER' qn='UPnPDevice.SERIAL_NUMBER' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.device.serialNumber"'>
+   <lead>
+Optional (but recommended) property key for a {@code String} typed
+ property holding the serial number of the device.
+   </lead>
+   <description>
+Optional (but recommended) property key for a {@code String} typed
+ property holding the serial number of the device. Value is
+ "UPnP.device.serialNumber".
+   </description>
+
+     </field>
+    <field name='UPC' fqn='org.osgi.service.upnp.UPnPDevice.UPC' qn='UPnPDevice.UPC' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.device.UPC"'>
+   <lead>
+Optional property key for a {@code String} typed property holding the
+ Universal Product Code (UPC) of the device.
+   </lead>
+   <description>
+Optional property key for a {@code String} typed property holding the
+ Universal Product Code (UPC) of the device. Value is "UPnP.device.UPC".
+   </description>
+
+     </field>
+    <field name='PRESENTATION_URL' fqn='org.osgi.service.upnp.UPnPDevice.PRESENTATION_URL' qn='UPnPDevice.PRESENTATION_URL' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.presentationURL"'>
+   <lead>
+Optional (but recommended) property key for a {@code String} typed
+ property holding a string representing the URL to a device representation
+ Web page.
+   </lead>
+   <description>
+Optional (but recommended) property key for a {@code String} typed
+ property holding a string representing the URL to a device representation
+ Web page. Value is "UPnP.presentationURL".
+   </description>
+
+     </field>
+    <field name='PARENT_UDN' fqn='org.osgi.service.upnp.UPnPDevice.PARENT_UDN' qn='UPnPDevice.PARENT_UDN' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.device.parentUDN"'>
+   <lead>
+The property key that must be set for all embedded devices.
+   </lead>
+   <description>
+The property key that must be set for all embedded devices. It contains
+ the UDN of the parent device. The property is not set for root devices.
+ The value is "UPnP.device.parentUDN".
+   </description>
+
+     </field>
+    <field name='CHILDREN_UDN' fqn='org.osgi.service.upnp.UPnPDevice.CHILDREN_UDN' qn='UPnPDevice.CHILDREN_UDN' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.device.childrenUDN"'>
+   <lead>
+The property key that must be set for all devices containing other
+ embedded devices.
+   </lead>
+   <description>
+The property key that must be set for all devices containing other
+ embedded devices.
+ <p>
+ The value is an array of UDNs for each of the device's children (
+ {@code String[]}). The array contains UDNs for the immediate descendants
+ only.
+ </p>
+ <p>
+ If an embedded device in turn contains embedded devices, the latter are
+ not included in the array.
+ </p>
+ The UPnP Specification does not encourage more than two levels of
+ nesting.
+ <p>
+ The property is not set if the device does not contain embedded devices.
+ </p><p>
+ The property is of type {@code String[]}. Value is
+ "UPnP.device.childrenUDN"</p>
+   </description>
+
+     </field>
+  </class>
+  <class name='UPnPEventListener' fqn='org.osgi.service.upnp.UPnPEventListener' qn='UPnPEventListener' package='org.osgi.service.upnp' typeParam='' modifiers='public abstract' interface='yes' kind='INTERFACE'>
+   <lead>
+UPnP Events are mapped and delivered to applications according to the OSGi
+ whiteboard model.
+   </lead>
+   <description>
+UPnP Events are mapped and delivered to applications according to the OSGi
+ whiteboard model. An application that wishes to be notified of events
+ generated by a particular UPnP Device registers a service extending this
+ interface.
+ <p>
+ The notification call from the UPnP Service to any {@code UPnPEventListener}
+ object must be done asynchronous with respect to the originator (in a
+ separate thread).
+ </p><p>
+ Upon registration of the UPnP Event Listener service with the Framework, the
+ service is notified for each variable which it listens for with an initial
+ event containing the current value of the variable. Subsequent notifications
+ only happen on changes of the value of the variable.
+ </p><p>
+ A UPnP Event Listener service filter the events it receives. This event set
+ is limited using a standard framework filter expression which is specified
+ when the listener service is registered.
+ </p><p>
+ The filter is specified in a property named "upnp.filter" and has as a value
+ an object of type {@code org.osgi.framework.Filter}.
+ </p><p>
+ When the Filter is evaluated, the following keywords are recognized as
+ defined as literal constants in the {@code UPnPDevice} class.
+ </p><p>
+ The valid subset of properties for the registration of UPnP Event Listener
+ services are:
+ </p><ul>
+ <li>{@code UPnPDevice.TYPE}-- Which type of device to listen for events.</li>
+ <li>{@code UPnPDevice.ID}-- The ID of a specific device to listen for events.
+ </li>
+ <li>{@code UPnPService.TYPE}-- The type of a specific service to listen for
+ events.</li>
+ <li>{@code UPnPService.ID}-- The ID of a specific service to listen for
+ events.</li>
+ </ul>
+   </description>
+<author>@author $Id: 52c82582004ef228e212b4dbd9aeb57d98e5e260 $</author>
+    <method name='notifyUPnPEvent' fqn='org.osgi.service.upnp.UPnPEventListener.notifyUPnPEvent' qn='UPnPEventListener.notifyUPnPEvent(String,String,Dictionary)' package='org.osgi.service.upnp' modifiers='public abstract' typeName='void' qualifiedTypeName='void' typeArgs='' dimension='' signature='(java.lang.String,java.lang.String,java.util.Dictionary&lt;java.lang.String,java.lang.Object&gt;)' flatSignature='(String,String,Dictionary)'>
+   <lead>
+Callback method that is invoked for received events.
+   </lead>
+   <description>
+Callback method that is invoked for received events.
+ 
+ The events are collected in a {@code Dictionary} object. Each entry has a
+ {@code String} key representing the event name (= state variable name)
+ and the new value of the state variable. The class of the value object
+ must match the class specified by the UPnP State Variable associated with
+ the event. This method must be called asynchronously
+   </description>
+
+<param name='deviceId'>ID of the device sending the events</param>
+<param name='serviceId'>ID of the service sending the events</param>
+<param name='events'>{@code Dictionary} object containing the new values for the
+        state variables that have changed.</param>
+
+
+
+
+    <parameter name='deviceId' dimension='' typeName='String' fqn='java.lang.String' varargs='false'/>
+    <parameter name='serviceId' dimension='' typeName='String' fqn='java.lang.String' varargs='false'/>
+    <parameter name='events' dimension='' typeName='Dictionary&lt;String, Object&gt;' fqn='java.util.Dictionary' varargs='false'/>
+     </method>
+    <field name='UPNP_FILTER' fqn='org.osgi.service.upnp.UPnPEventListener.UPNP_FILTER' qn='UPnPEventListener.UPNP_FILTER' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"upnp.filter"'>
+   <lead>
+Key for a service property having a value that is an object of type
+ {@code org.osgi.framework.Filter} and that is used to limit received
+ events.
+   </lead>
+   <description>
+Key for a service property having a value that is an object of type
+ {@code org.osgi.framework.Filter} and that is used to limit received
+ events.
+   </description>
+
+     </field>
+  </class>
+  <class name='UPnPException' fqn='org.osgi.service.upnp.UPnPException' qn='UPnPException' package='org.osgi.service.upnp' typeParam='' modifiers='public class' superclass='Exception' kind='CLASS'>
+   <lead>
+There are several defined error situations describing UPnP problems while a
+ control point invokes actions to UPnPDevices.
+   </lead>
+   <description>
+There are several defined error situations describing UPnP problems while a
+ control point invokes actions to UPnPDevices.
+   </description>
+<since>@since 1.1</since><author>@author $Id: 3b5197d5e2e97a396cc517e874a7ae94fa856b01 $</author>
+    <method name='UPnPException' fqn='org.osgi.service.upnp.UPnPException.UPnPException' qn='UPnPException.UPnPException(int,String)' package='org.osgi.service.upnp' typeArgs='' modifiers='public' signature='(int,java.lang.String)' flatSignature='(int,String)' isConstructor='true'>
+   <lead>
+This constructor creates a {@code UPnPException} on the specified error
+ code and error description.
+   </lead>
+   <description>
+This constructor creates a {@code UPnPException} on the specified error
+ code and error description.
+   </description>
+
+<param name='errorCode'>error code which defined by UPnP Device Architecture
+        V1.0.</param>
+<param name='errorDescription'>error description which explain the type of
+        problem.</param>
+
+
+
+
+    <parameter name='errorCode' dimension='' typeName='int' fqn='int' varargs='false'/>
+    <parameter name='errorDescription' dimension='' typeName='String' fqn='java.lang.String' varargs='false'/>
+     </method>
+    <method name='UPnPException' fqn='org.osgi.service.upnp.UPnPException.UPnPException' qn='UPnPException.UPnPException(int,String,Throwable)' package='org.osgi.service.upnp' typeArgs='' modifiers='public' signature='(int,java.lang.String,java.lang.Throwable)' flatSignature='(int,String,Throwable)' isConstructor='true'>
+   <lead>
+This constructor creates a {@code UPnPException} on the specified error
+ code, error description and error cause.
+   </lead>
+   <description>
+This constructor creates a {@code UPnPException} on the specified error
+ code, error description and error cause.
+   </description>
+
+<param name='errorCode'>error code which defined by UPnP Device Architecture
+        V1.0.</param>
+<param name='errorDescription'>error description which explain the type of the
+        problem.</param>
+<param name='errorCause'>cause of that {@code UPnPException}.</param>
+
+
+
+<since>@since 1.2</since>
+    <parameter name='errorCode' dimension='' typeName='int' fqn='int' varargs='false'/>
+    <parameter name='errorDescription' dimension='' typeName='String' fqn='java.lang.String' varargs='false'/>
+    <parameter name='errorCause' dimension='' typeName='Throwable' fqn='java.lang.Throwable' varargs='false'/>
+     </method>
+    <method name='getUPnPErrorCode' fqn='org.osgi.service.upnp.UPnPException.getUPnPErrorCode' qn='UPnPException.getUPnPErrorCode()' package='org.osgi.service.upnp' modifiers='public' typeName='int' qualifiedTypeName='int' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the UPnP Error Code occurred by UPnPDevices during invocation.
+   </lead>
+   <description>
+Returns the UPnP Error Code occurred by UPnPDevices during invocation.
+   </description>
+
+
+<return>The UPnPErrorCode defined by a UPnP Forum working committee or
+         specified by a UPnP vendor.</return>
+
+
+<since>@since 1.2</since>
+     </method>
+    <method name='getUPnPError_Code' fqn='org.osgi.service.upnp.UPnPException.getUPnPError_Code' qn='UPnPException.getUPnPError_Code()' package='org.osgi.service.upnp' modifiers='public' typeName='int' qualifiedTypeName='int' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the UPnPError Code occurred by UPnPDevices during invocation.
+   </lead>
+   <description>
+Returns the UPnPError Code occurred by UPnPDevices during invocation.
+   </description>
+
+
+<return>The UPnPErrorCode defined by a UPnP Forum working committee or
+         specified by a UPnP vendor.</return>
+
+
+<deprecated>@deprecated As of 1.2. Replaced by {@link #getUPnPErrorCode()}.</deprecated>
+     </method>
+    <field name='INVALID_ACTION' fqn='org.osgi.service.upnp.UPnPException.INVALID_ACTION' qn='UPnPException.INVALID_ACTION' package='org.osgi.service.upnp' modifiers='public static final' typeName='int' qualifiedTypeName='int' dimension='' constantValue='401'>
+   <lead>
+No Action found by that name at this service.
+   </lead>
+   <description>
+No Action found by that name at this service.
+   </description>
+
+     </field>
+    <field name='INVALID_ARGS' fqn='org.osgi.service.upnp.UPnPException.INVALID_ARGS' qn='UPnPException.INVALID_ARGS' package='org.osgi.service.upnp' modifiers='public static final' typeName='int' qualifiedTypeName='int' dimension='' constantValue='402'>
+   <lead>
+Not enough arguments, too many arguments with a specific name, or one of
+ more of the arguments are of the wrong type.
+   </lead>
+   <description>
+Not enough arguments, too many arguments with a specific name, or one of
+ more of the arguments are of the wrong type.
+   </description>
+
+     </field>
+    <field name='INVALID_SEQUENCE_NUMBER' fqn='org.osgi.service.upnp.UPnPException.INVALID_SEQUENCE_NUMBER' qn='UPnPException.INVALID_SEQUENCE_NUMBER' package='org.osgi.service.upnp' modifiers='public static final' typeName='int' qualifiedTypeName='int' dimension='' constantValue='403'>
+   <lead>
+The different end-points are no longer in synchronization.
+   </lead>
+   <description>
+The different end-points are no longer in synchronization.
+   </description>
+
+     </field>
+    <field name='INVALID_VARIABLE' fqn='org.osgi.service.upnp.UPnPException.INVALID_VARIABLE' qn='UPnPException.INVALID_VARIABLE' package='org.osgi.service.upnp' modifiers='public static final' typeName='int' qualifiedTypeName='int' dimension='' constantValue='404'>
+   <lead>
+Refers to a non existing variable.
+   </lead>
+   <description>
+Refers to a non existing variable.
+   </description>
+
+     </field>
+    <field name='DEVICE_INTERNAL_ERROR' fqn='org.osgi.service.upnp.UPnPException.DEVICE_INTERNAL_ERROR' qn='UPnPException.DEVICE_INTERNAL_ERROR' package='org.osgi.service.upnp' modifiers='public static final' typeName='int' qualifiedTypeName='int' dimension='' constantValue='501'>
+   <lead>
+The invoked action failed during execution.
+   </lead>
+   <description>
+The invoked action failed during execution.
+   </description>
+
+     </field>
+  </class>
+  <class name='UPnPIcon' fqn='org.osgi.service.upnp.UPnPIcon' qn='UPnPIcon' package='org.osgi.service.upnp' typeParam='' modifiers='public abstract' interface='yes' kind='INTERFACE'>
+   <lead>
+A UPnP icon representation.
+   </lead>
+   <description>
+A UPnP icon representation.
+ 
+ Each UPnP device can contain zero or more icons.
+   </description>
+<author>@author $Id: f654c000befa98e61d28be8be5e904fb4dab1b81 $</author>
+    <method name='getMimeType' fqn='org.osgi.service.upnp.UPnPIcon.getMimeType' qn='UPnPIcon.getMimeType()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='String' qualifiedTypeName='java.lang.String' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the MIME type of the icon.
+   </lead>
+   <description>
+Returns the MIME type of the icon.
+ 
+ This method returns the format in which the icon graphics, read from the
+ {@code InputStream} object obtained by the {@code getInputStream()}
+ method, is encoded.
+ <p>
+ The format of the returned string is in accordance to RFC2046. A list of
+ valid MIME types is maintained by the <a href="http://www.iana.org/assignments/media-types/">IANA</a>.
+ </p><p>
+ Typical values returned include: "image/jpeg" or "image/gif"
+ 
+ </p><p>
+ This method must continue to return the icon MIME type after the UPnP
+ device has been removed from the network.</p>
+   </description>
+
+
+<return>The MIME type of the encoded icon.</return>
+
+
+
+     </method>
+    <method name='getWidth' fqn='org.osgi.service.upnp.UPnPIcon.getWidth' qn='UPnPIcon.getWidth()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='int' qualifiedTypeName='int' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the width of the icon in pixels.
+   </lead>
+   <description>
+Returns the width of the icon in pixels.
+ 
+ If the actual width of the icon is unknown, -1 is returned.
+ 
+ <p>
+ This method must continue to return the icon width after the UPnP device
+ has been removed from the network.</p>
+   </description>
+
+
+<return>The width in pixels, or -1 if unknown.</return>
+
+
+
+     </method>
+    <method name='getHeight' fqn='org.osgi.service.upnp.UPnPIcon.getHeight' qn='UPnPIcon.getHeight()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='int' qualifiedTypeName='int' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the height of the icon in pixels.
+   </lead>
+   <description>
+Returns the height of the icon in pixels.
+ 
+ If the actual height of the icon is unknown, -1 is returned.
+ 
+ <p>
+ This method must continue to return the icon height after the UPnP device
+ has been removed from the network.</p>
+   </description>
+
+
+<return>The height in pixels, or -1 if unknown.</return>
+
+
+
+     </method>
+    <method name='getSize' fqn='org.osgi.service.upnp.UPnPIcon.getSize' qn='UPnPIcon.getSize()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='int' qualifiedTypeName='int' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the size of the icon in bytes.
+   </lead>
+   <description>
+Returns the size of the icon in bytes.
+ 
+ This method returns the number of bytes of the icon available to read
+ from the {@code InputStream} object obtained by the
+ {@code getInputStream()} method. If the actual size can not be
+ determined, -1 is returned.
+   </description>
+
+
+<return>The icon size in bytes, or -1 if the size is unknown.</return>
+
+<throws name='IllegalStateException'>if the UPnP device has been removed from
+         the network.</throws>
+
+
+     </method>
+    <method name='getDepth' fqn='org.osgi.service.upnp.UPnPIcon.getDepth' qn='UPnPIcon.getDepth()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='int' qualifiedTypeName='int' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the color depth of the icon in bits.
+   </lead>
+   <description>
+Returns the color depth of the icon in bits.
+ 
+ <p>
+ This method must continue to return the icon depth after the UPnP device
+ has been removed from the network.</p>
+   </description>
+
+
+<return>The color depth in bits. If the actual color depth of the icon is
+         unknown, -1 is returned.</return>
+
+
+
+     </method>
+    <method name='getInputStream' fqn='org.osgi.service.upnp.UPnPIcon.getInputStream' qn='UPnPIcon.getInputStream()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='InputStream' qualifiedTypeName='java.io.InputStream' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns an {@code InputStream} object for the icon data.
+   </lead>
+   <description>
+Returns an {@code InputStream} object for the icon data.
+ 
+ The {@code InputStream} object provides a way for a client to read the
+ actual icon graphics data. The number of bytes available from this
+ {@code InputStream} object can be determined via the {@code getSize()}
+ method. The format of the data encoded can be determined by the MIME type
+ available via the {@code getMimeType()} method.
+   </description>
+
+
+<return>An InputStream to read the icon graphics data from.</return>
+
+<throws name='IOException'>If the {@code InputStream} cannot be returned.</throws>
+<throws name='IllegalStateException'>if the UPnP device has been removed from
+         the network.</throws>
+
+<a href='#UPnPIcon.getMimeType()'>UPnPIcon.getMimeType()</a>
+<exception name='IOException' fqn='java.io.IOException'/>
+     </method>
+  </class>
+  <class name='UPnPLocalStateVariable' fqn='org.osgi.service.upnp.UPnPLocalStateVariable' qn='UPnPLocalStateVariable' package='org.osgi.service.upnp' typeParam='' modifiers='public abstract' superclass='UPnPStateVariable' interface='yes' kind='INTERFACE'>
+   <lead>
+A local UPnP state variable which allows the value of the state variable to
+ be queried.
+   </lead>
+   <description>
+A local UPnP state variable which allows the value of the state variable to
+ be queried.
+   </description>
+<since>@since 1.1</since><author>@author $Id: d491334387bfdc913f196eb77a22ddc181bb81a8 $</author>
+<implements name='UPnPStateVariable' fqn='org.osgi.service.upnp.UPnPStateVariable' qn='UPnPStateVariable' package='org.osgi.service.upnp' local='org.osgi.service.upnp.UPnPLocalStateVariable'/>
+    <method name='getCurrentValue' fqn='org.osgi.service.upnp.UPnPLocalStateVariable.getCurrentValue' qn='UPnPLocalStateVariable.getCurrentValue()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='Object' qualifiedTypeName='java.lang.Object' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+This method will keep the current values of UPnPStateVariables of a
+ UPnPDevice whenever UPnPStateVariable's value is changed , this method
+ must be called.
+   </lead>
+   <description>
+This method will keep the current values of UPnPStateVariables of a
+ UPnPDevice whenever UPnPStateVariable's value is changed , this method
+ must be called.
+   </description>
+
+
+<return>{@code Object} current value of UPnPStateVariable. If the current
+         value is initialized with the default value defined UPnP service
+         description.</return>
+
+<throws name='IllegalStateException'>If the UPnP state variable has been
+             removed.</throws>
+
+
+     </method>
+  </class>
+  <class name='UPnPService' fqn='org.osgi.service.upnp.UPnPService' qn='UPnPService' package='org.osgi.service.upnp' typeParam='' modifiers='public abstract' interface='yes' kind='INTERFACE'>
+   <lead>
+A representation of a UPnP Service.
+   </lead>
+   <description>
+A representation of a UPnP Service.
+ 
+ Each UPnP device contains zero or more services. The UPnP description for a
+ service defines actions, their arguments, and event characteristics.
+   </description>
+<author>@author $Id: 8a430d12a3100d60e2b736da1241be735aee480e $</author>
+    <method name='getId' fqn='org.osgi.service.upnp.UPnPService.getId' qn='UPnPService.getId()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='String' qualifiedTypeName='java.lang.String' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the {@code serviceId} field in the UPnP service description.
+   </lead>
+   <description>
+Returns the {@code serviceId} field in the UPnP service description.
+ 
+ 
+ <p>
+ For standard services defined by a UPnP Forum working committee, the
+ serviceId must contain the following components in the indicated order:
+ </p><ul>
+ <li>{@code urn:upnp-org:serviceId:}</li>
+ <li>service ID suffix</li>
+ </ul>
+ Example: {@code urn:upnp-org:serviceId:serviceID}.
+ 
+ <p>
+ Note that {@code upnp-org} is used instead of {@code schemas-upnp-org} in
+ this example because an XML schema is not defined for each serviceId.
+ </p>
+ 
+ <p>
+ For non-standard services specified by UPnP vendors, the serviceId must
+ contain the following components in the indicated order:
+ </p><ul>
+ <li>{@code urn:}</li>
+ <li>ICANN domain name owned by the vendor</li>
+ <li>{@code :serviceId:}</li>
+ <li>service ID suffix</li>
+ </ul>
+ Example: {@code urn:domain-name:serviceId:serviceID}.
+ 
+ <p>
+ This method must continue to return the service id after the UPnP service
+ has been removed from the network.</p>
+   </description>
+
+
+<return>The service ID suffix defined by a UPnP Forum working committee
+         or specified by a UPnP vendor. Must be &lt;= 64 characters.
+         Single URI.</return>
+
+
+
+     </method>
+    <method name='getType' fqn='org.osgi.service.upnp.UPnPService.getType' qn='UPnPService.getType()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='String' qualifiedTypeName='java.lang.String' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the {@code serviceType} field in the UPnP service description.
+   </lead>
+   <description>
+Returns the {@code serviceType} field in the UPnP service description.
+ 
+ <p>
+ For standard services defined by a UPnP Forum working committee, the
+ serviceType must contain the following components in the indicated order:
+ </p><ul>
+ <li>{@code urn:schemas-upnp-org:service:}</li>
+ <li>service type suffix:</li>
+ <li>integer service version</li>
+ </ul>
+ Example: {@code urn:schemas-upnp-org:service:serviceType:v}.
+ 
+ <p>
+ For non-standard services specified by UPnP vendors, the
+ {@code serviceType} must contain the following components in the
+ indicated order:
+ </p><ul>
+ <li>{@code urn:}</li>
+ <li>ICANN domain name owned by the vendor</li>
+ <li>{@code :service:}</li>
+ <li>service type suffix:</li>
+ <li>integer service version</li>
+ </ul>
+ Example: {@code urn:domain-name:service:serviceType:v}.
+ 
+ <p>
+ This method must continue to return the service type after the UPnP
+ service has been removed from the network.</p>
+   </description>
+
+
+<return>The service type suffix defined by a UPnP Forum working committee
+         or specified by a UPnP vendor. Must be &lt;= 64 characters, not
+         including the version suffix and separating colon. Single URI.</return>
+
+
+
+     </method>
+    <method name='getVersion' fqn='org.osgi.service.upnp.UPnPService.getVersion' qn='UPnPService.getVersion()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='String' qualifiedTypeName='java.lang.String' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the version suffix encoded in the {@code serviceType} field in
+ the UPnP service description.
+   </lead>
+   <description>
+Returns the version suffix encoded in the {@code serviceType} field in
+ the UPnP service description.
+ 
+ <p>
+ This method must continue to return the service version after the UPnP
+ service has been removed from the network.</p>
+   </description>
+
+
+<return>The integer service version defined by a UPnP Forum working
+         committee or specified by a UPnP vendor.</return>
+
+
+
+     </method>
+    <method name='getAction' fqn='org.osgi.service.upnp.UPnPService.getAction' qn='UPnPService.getAction(String)' package='org.osgi.service.upnp' modifiers='public abstract' typeName='UPnPAction' qualifiedTypeName='org.osgi.service.upnp.UPnPAction' typeArgs='' dimension='' signature='(java.lang.String)' flatSignature='(String)'>
+   <lead>
+Locates a specific action by name.
+   </lead>
+   <description>
+Locates a specific action by name.
+ 
+ Looks up an action by its name.
+   </description>
+
+<param name='name'>Name of action. Must not contain hyphen or hash characters.
+        Should be &lt; 32 characters.</param>
+
+<return>The requested action or {@code null} if no action is found.</return>
+
+<throws name='IllegalStateException'>if the UPnP service has been removed from
+         the network.</throws>
+
+
+    <parameter name='name' dimension='' typeName='String' fqn='java.lang.String' varargs='false'/>
+     </method>
+    <method name='getActions' fqn='org.osgi.service.upnp.UPnPService.getActions' qn='UPnPService.getActions()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='UPnPAction[]' qualifiedTypeName='org.osgi.service.upnp.UPnPAction[]' typeArgs='' dimension='[]' signature='()' flatSignature='()'>
+   <lead>
+Lists all actions provided by this service.
+   </lead>
+   <description>
+Lists all actions provided by this service.
+   </description>
+
+
+<return>Array of actions ({@code UPnPAction[]} )or {@code null} if no
+         actions are defined for this service.</return>
+
+<throws name='IllegalStateException'>if the UPnP service has been removed from
+         the network.</throws>
+
+
+     </method>
+    <method name='getStateVariables' fqn='org.osgi.service.upnp.UPnPService.getStateVariables' qn='UPnPService.getStateVariables()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='UPnPStateVariable[]' qualifiedTypeName='org.osgi.service.upnp.UPnPStateVariable[]' typeArgs='' dimension='[]' signature='()' flatSignature='()'>
+   <lead>
+Lists all {@code UPnPStateVariable} objects provided by this service.
+   </lead>
+   <description>
+Lists all {@code UPnPStateVariable} objects provided by this service.
+   </description>
+
+
+<return>Array of state variables or {@code null} if none are defined for
+         this service.</return>
+
+<throws name='IllegalStateException'>if the UPnP service has been removed from
+         the network.</throws>
+
+
+     </method>
+    <method name='getStateVariable' fqn='org.osgi.service.upnp.UPnPService.getStateVariable' qn='UPnPService.getStateVariable(String)' package='org.osgi.service.upnp' modifiers='public abstract' typeName='UPnPStateVariable' qualifiedTypeName='org.osgi.service.upnp.UPnPStateVariable' typeArgs='' dimension='' signature='(java.lang.String)' flatSignature='(String)'>
+   <lead>
+Gets a {@code UPnPStateVariable} objects provided by this service by name
+   </lead>
+   <description>
+Gets a {@code UPnPStateVariable} objects provided by this service by name
+   </description>
+
+<param name='name'>Name of the State Variable</param>
+
+<return>State variable or {@code null} if no such state variable exists
+         for this service.</return>
+
+<throws name='IllegalStateException'>if the UPnP service has been removed from
+         the network.</throws>
+
+
+    <parameter name='name' dimension='' typeName='String' fqn='java.lang.String' varargs='false'/>
+     </method>
+    <field name='TYPE' fqn='org.osgi.service.upnp.UPnPService.TYPE' qn='UPnPService.TYPE' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.service.type"'>
+   <lead>
+Property key for the optional service type uri.
+   </lead>
+   <description>
+Property key for the optional service type uri.
+ 
+ The service type property is used when registering UPnP Device services
+ and UPnP Event Listener services. The property contains a {@code String}
+ array ({@code String[]}) of service types. A UPnP Device service can thus
+ announce what types of services it contains. A UPnP Event Listener
+ service can announce for what type of UPnP services it wants
+ notifications. The service version is encoded in the type string as
+ specified in the UPnP specification. A {@code null} value is a wildcard,
+ matching <b>all </b> service types. Value is "UPnP.service.type".
+   </description>
+<a href='#UPnPService.getType()'>UPnPService.getType()</a>
+     </field>
+    <field name='ID' fqn='org.osgi.service.upnp.UPnPService.ID' qn='UPnPService.ID' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"UPnP.service.id"'>
+   <lead>
+Property key for the optional service id.
+   </lead>
+   <description>
+Property key for the optional service id.
+ 
+ The service id property is used when registering UPnP Device services or
+ UPnP Event Listener services. The value of the property contains a
+ {@code String} array ({@code String[]}) of service ids. A UPnP Device
+ service can thus announce what service ids it contains. A UPnP Event
+ Listener service can announce for what UPnP service ids it wants
+ notifications. A service id does <b>not </b> have to be universally
+ unique. It must be unique only within a device. A {@code null} value is a
+ wildcard, matching <b>all </b> services. The value is "UPnP.service.id".
+   </description>
+
+     </field>
+  </class>
+  <class name='UPnPStateVariable' fqn='org.osgi.service.upnp.UPnPStateVariable' qn='UPnPStateVariable' package='org.osgi.service.upnp' typeParam='' modifiers='public abstract' interface='yes' kind='INTERFACE'>
+   <lead>
+The meta-information of a UPnP state variable as declared in the device's
+ service state table (SST).
+   </lead>
+   <description>
+The meta-information of a UPnP state variable as declared in the device's
+ service state table (SST).
+ <p>
+ Method calls to interact with a device (e.g. {@code UPnPAction.invoke(...);})
+ use this class to encapsulate meta information about the input and output
+ arguments.
+ </p><p>
+ The actual values of the arguments are passed as Java objects. The mapping of
+ types from UPnP data types to Java data types is described with the field
+ definitions.</p>
+   </description>
+<author>@author $Id: c3cb5d64cc98036befd19526c5a5855b1368b217 $</author>
+    <method name='getName' fqn='org.osgi.service.upnp.UPnPStateVariable.getName' qn='UPnPStateVariable.getName()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='String' qualifiedTypeName='java.lang.String' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the variable name.
+   </lead>
+   <description>
+Returns the variable name.
+ 
+ <ul>
+ <li>All standard variables defined by a UPnP Forum working committee must
+ not begin with {@code X_} nor {@code A_}.</li>
+ <li>All non-standard variables specified by a UPnP vendor and added to a
+ standard service must begin with {@code X_}.</li>
+ </ul>
+ 
+ <p>
+ This method must continue to return the state variable name after the
+ UPnP state variable has been removed from the network.</p>
+   </description>
+
+
+<return>Name of state variable. Must not contain a hyphen character nor a
+         hash character. Should be &lt; 32 characters.</return>
+
+
+
+     </method>
+    <method name='getJavaDataType' fqn='org.osgi.service.upnp.UPnPStateVariable.getJavaDataType' qn='UPnPStateVariable.getJavaDataType()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='Class&lt;?&gt;' qualifiedTypeName='java.lang.Class' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the Java class associated with the UPnP data type of this state
+ variable.
+   </lead>
+   <description>
+Returns the Java class associated with the UPnP data type of this state
+ variable.
+ <p>
+ Mapping between the UPnP data types and Java classes is performed
+ according to the schema mentioned above.
+ 
+ </p><pre>&#8194;<br/>&#8194;&#8194;Integer&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;ui1,&#8194;ui2,&#8194;i1,&#8194;i2,&#8194;i4,&#8194;int<br/>&#8194;&#8194;Long&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;ui4,&#8194;time,&#8194;time.tz<br/>&#8194;&#8194;Float&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;r4,&#8194;float<br/>&#8194;&#8194;Double&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;r8,&#8194;number,&#8194;fixed.14.4<br/>&#8194;&#8194;Character&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;char<br/>&#8194;&#8194;String&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;string,&#8194;uri,&#8194;uuid<br/>&#8194;&#8194;Date&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;date,&#8194;dateTime,&#8194;dateTime.tz<br/>&#8194;&#8194;Boolean&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;boolean<br/>&#8194;&#8194;byte[]&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;bin.base64,&#8194;bin.hex</pre>
+ 
+ <p>
+ This method must continue to return the state variable java type after
+ the UPnP state variable has been removed from the network.</p>
+   </description>
+
+
+<return>A class object corresponding to the Java type of this argument.</return>
+
+
+
+     </method>
+    <method name='getUPnPDataType' fqn='org.osgi.service.upnp.UPnPStateVariable.getUPnPDataType' qn='UPnPStateVariable.getUPnPDataType()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='String' qualifiedTypeName='java.lang.String' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the UPnP type of this state variable.
+   </lead>
+   <description>
+Returns the UPnP type of this state variable. Valid types are defined as
+ constants.
+ 
+ <p>
+ This method must continue to return the state variable UPnP data type
+ after the UPnP state variable has been removed from the network.</p>
+   </description>
+
+
+<return>The UPnP data type of this state variable, as defined in above
+         constants.</return>
+
+
+
+     </method>
+    <method name='getDefaultValue' fqn='org.osgi.service.upnp.UPnPStateVariable.getDefaultValue' qn='UPnPStateVariable.getDefaultValue()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='Object' qualifiedTypeName='java.lang.Object' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the default value, if defined.
+   </lead>
+   <description>
+Returns the default value, if defined.
+ 
+ <p>
+ This method must continue to return the state variable default value
+ after the UPnP state variable has been removed from the network.</p>
+   </description>
+
+
+<return>The default value or {@code null} if not defined. The type of the
+         returned object can be determined by {@code getJavaDataType}.</return>
+
+
+
+     </method>
+    <method name='getAllowedValues' fqn='org.osgi.service.upnp.UPnPStateVariable.getAllowedValues' qn='UPnPStateVariable.getAllowedValues()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='String[]' qualifiedTypeName='java.lang.String[]' typeArgs='' dimension='[]' signature='()' flatSignature='()'>
+   <lead>
+Returns the allowed values, if defined.
+   </lead>
+   <description>
+Returns the allowed values, if defined. Allowed values can be defined
+ only for String types.
+ 
+ <p>
+ This method must continue to return the state variable allowed values
+ after the UPnP state variable has been removed from the network.</p>
+   </description>
+
+
+<return>The allowed values or {@code null} if not defined. Should be less
+         than 32 characters.</return>
+
+
+
+     </method>
+    <method name='getMinimum' fqn='org.osgi.service.upnp.UPnPStateVariable.getMinimum' qn='UPnPStateVariable.getMinimum()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='Number' qualifiedTypeName='java.lang.Number' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the minimum value, if defined.
+   </lead>
+   <description>
+Returns the minimum value, if defined. Minimum values can only be defined
+ for numeric types.
+ 
+ <p>
+ This method must continue to return the state variable minimum value
+ after the UPnP state variable has been removed from the network.</p>
+   </description>
+
+
+<return>The minimum value or {@code null} if not defined.</return>
+
+
+
+     </method>
+    <method name='getMaximum' fqn='org.osgi.service.upnp.UPnPStateVariable.getMaximum' qn='UPnPStateVariable.getMaximum()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='Number' qualifiedTypeName='java.lang.Number' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the maximum value, if defined.
+   </lead>
+   <description>
+Returns the maximum value, if defined. Maximum values can only be defined
+ for numeric types.
+ 
+ <p>
+ This method must continue to return the state variable maximum value
+ after the UPnP state variable has been removed from the network.</p>
+   </description>
+
+
+<return>The maximum value or {@code null} if not defined.</return>
+
+
+
+     </method>
+    <method name='getStep' fqn='org.osgi.service.upnp.UPnPStateVariable.getStep' qn='UPnPStateVariable.getStep()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='Number' qualifiedTypeName='java.lang.Number' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Returns the size of an increment operation, if defined.
+   </lead>
+   <description>
+Returns the size of an increment operation, if defined. Step sizes can be
+ defined only for numeric types.
+ 
+ <p>
+ This method must continue to return the step size after the UPnP state
+ variable has been removed from the network.</p>
+   </description>
+
+
+<return>The increment size or null if not defined.</return>
+
+
+
+     </method>
+    <method name='sendsEvents' fqn='org.osgi.service.upnp.UPnPStateVariable.sendsEvents' qn='UPnPStateVariable.sendsEvents()' package='org.osgi.service.upnp' modifiers='public abstract' typeName='boolean' qualifiedTypeName='boolean' typeArgs='' dimension='' signature='()' flatSignature='()'>
+   <lead>
+Tells if this StateVariable can be used as an event source.
+   </lead>
+   <description>
+Tells if this StateVariable can be used as an event source.
+ 
+ If the StateVariable is eventable, an event listener service can be
+ registered to be notified when changes to the variable appear.
+ 
+ <p>
+ This method must continue to return the correct value after the UPnP
+ state variable has been removed from the network.</p>
+   </description>
+
+
+<return>{@code true} if the {@code StateVariable} generates events,
+         {@code false} otherwise.</return>
+
+
+
+     </method>
+    <field name='TYPE_UI1' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_UI1' qn='UPnPStateVariable.TYPE_UI1' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"ui1"'>
+   <lead>
+Unsigned 1 {@code Byte} int.
+   </lead>
+   <description>
+Unsigned 1 {@code Byte} int.
+ <p>
+ Mapped to an {@code Integer} object.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_UI2' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_UI2' qn='UPnPStateVariable.TYPE_UI2' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"ui2"'>
+   <lead>
+Unsigned 2 Byte int.
+   </lead>
+   <description>
+Unsigned 2 Byte int.
+ <p>
+ Mapped to {@code Integer} object.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_UI4' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_UI4' qn='UPnPStateVariable.TYPE_UI4' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"ui4"'>
+   <lead>
+Unsigned 4 Byte int.
+   </lead>
+   <description>
+Unsigned 4 Byte int.
+ <p>
+ Mapped to {@code Long} object.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_I1' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_I1' qn='UPnPStateVariable.TYPE_I1' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"i1"'>
+   <lead>
+1 Byte int.
+   </lead>
+   <description>
+1 Byte int.
+ <p>
+ Mapped to {@code Integer} object.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_I2' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_I2' qn='UPnPStateVariable.TYPE_I2' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"i2"'>
+   <lead>
+2 Byte int.
+   </lead>
+   <description>
+2 Byte int.
+ <p>
+ Mapped to {@code Integer} object.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_I4' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_I4' qn='UPnPStateVariable.TYPE_I4' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"i4"'>
+   <lead>
+4 Byte int.
+   </lead>
+   <description>
+4 Byte int.
+ <p>
+ Must be between -2147483648 and 2147483647
+ </p><p>
+ Mapped to {@code Integer} object.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_INT' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_INT' qn='UPnPStateVariable.TYPE_INT' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"int"'>
+   <lead>
+Integer number.
+   </lead>
+   <description>
+Integer number.
+ <p>
+ Mapped to {@code Integer} object.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_R4' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_R4' qn='UPnPStateVariable.TYPE_R4' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"r4"'>
+   <lead>
+4 Byte float.
+   </lead>
+   <description>
+4 Byte float.
+ <p>
+ Same format as float. Must be between 3.40282347E+38 to 1.17549435E-38.
+ </p><p>
+ Mapped to {@code Float} object.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_R8' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_R8' qn='UPnPStateVariable.TYPE_R8' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"r8"'>
+   <lead>
+8 Byte float.
+   </lead>
+   <description>
+8 Byte float.
+ <p>
+ Same format as float. Must be between -1.79769313486232E308 and
+ -4.94065645841247E-324 for negative values, and between
+ 4.94065645841247E-324 and 1.79769313486232E308 for positive values, i.e.,
+ IEEE 64-bit (8-Byte) double.
+ </p><p>
+ Mapped to {@code Double} object.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_NUMBER' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_NUMBER' qn='UPnPStateVariable.TYPE_NUMBER' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"number"'>
+   <lead>
+Same as r8.
+   </lead>
+   <description>
+Same as r8.
+ <p>
+ Mapped to {@code Double} object.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_FIXED_14_4' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_FIXED_14_4' qn='UPnPStateVariable.TYPE_FIXED_14_4' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"fixed.14.4"'>
+   <lead>
+Same as r8 but no more than 14 digits to the left of the decimal point
+ and no more than 4 to the right.
+   </lead>
+   <description>
+Same as r8 but no more than 14 digits to the left of the decimal point
+ and no more than 4 to the right.
+ <p>
+ Mapped to {@code Double} object.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_FLOAT' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_FLOAT' qn='UPnPStateVariable.TYPE_FLOAT' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"float"'>
+   <lead>
+Floating-point number.
+   </lead>
+   <description>
+Floating-point number.
+ <p>
+ Mantissa (left of the decimal) and/or exponent may have a leading sign.
+ Mantissa and/or exponent may have leading zeros. Decimal character in
+ mantissa is a period, i.e., whole digits in mantissa separated from
+ fractional digits by period. Mantissa separated from exponent by E. (No
+ currency symbol.) (No grouping of digits in the mantissa, e.g., no
+ commas.)
+ </p><p>
+ Mapped to {@code Float} object.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_CHAR' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_CHAR' qn='UPnPStateVariable.TYPE_CHAR' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"char"'>
+   <lead>
+Unicode string.
+   </lead>
+   <description>
+Unicode string.
+ <p>
+ One character long.
+ </p><p>
+ Mapped to {@code Character} object.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_STRING' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_STRING' qn='UPnPStateVariable.TYPE_STRING' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"string"'>
+   <lead>
+Unicode string.
+   </lead>
+   <description>
+Unicode string.
+ <p>
+ No limit on length.
+ </p><p>
+ Mapped to {@code String} object.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_DATE' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_DATE' qn='UPnPStateVariable.TYPE_DATE' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"date"'>
+   <lead>
+A calendar date.
+   </lead>
+   <description>
+A calendar date.
+ <p>
+ Date in a subset of ISO 8601 format without time data.
+ </p><p>
+ See <a href="http://www.w3.org/TR/xmlschema-2/#date">http://www.w3.org/TR/
+ xmlschema-2/#date </a>.
+ </p><p>
+ Mapped to {@code java.util.Date} object. Always 00:00 hours.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_DATETIME' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_DATETIME' qn='UPnPStateVariable.TYPE_DATETIME' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"dateTime"'>
+   <lead>
+A specific instant of time.
+   </lead>
+   <description>
+A specific instant of time.
+ <p>
+ Date in ISO 8601 format with optional time but no time zone.
+ </p><p>
+ See <a href="http://www.w3.org/TR/xmlschema-2/#dateTime">http://www.w3.org
+ /TR/xmlschema-2/#dateTime </a>.
+ </p><p>
+ Mapped to {@code java.util.Date} object using default time zone.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_DATETIME_TZ' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_DATETIME_TZ' qn='UPnPStateVariable.TYPE_DATETIME_TZ' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"dateTime.tz"'>
+   <lead>
+A specific instant of time.
+   </lead>
+   <description>
+A specific instant of time.
+ <p>
+ Date in ISO 8601 format with optional time and optional time zone.
+ </p><p>
+ See <a href="http://www.w3.org/TR/xmlschema-2/#dateTime">http://www.w3.org
+ /TR/xmlschema-2/#dateTime </a>.
+ </p><p>
+ Mapped to {@code java.util.Date} object adjusted to default time zone.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_TIME' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_TIME' qn='UPnPStateVariable.TYPE_TIME' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"time"'>
+   <lead>
+An instant of time that recurs every day.
+   </lead>
+   <description>
+An instant of time that recurs every day.
+ <p>
+ Time in a subset of ISO 8601 format with no date and no time zone.
+ </p><p>
+ See <a href="http://www.w3.org/TR/xmlschema-2/#dateTime">http://www.w3.org
+ /TR/xmlschema-2/#time </a>.
+ </p><p>
+ Mapped to {@code Long}. Converted to milliseconds since midnight.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_TIME_TZ' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_TIME_TZ' qn='UPnPStateVariable.TYPE_TIME_TZ' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"time.tz"'>
+   <lead>
+An instant of time that recurs every day.
+   </lead>
+   <description>
+An instant of time that recurs every day.
+ <p>
+ Time in a subset of ISO 8601 format with optional time zone but no date.
+ </p><p>
+ See <a href="http://www.w3.org/TR/xmlschema-2/#dateTime">http://www.w3.org
+ /TR/xmlschema-2/#time </a>.
+ </p><p>
+ Mapped to {@code Long} object. Converted to milliseconds since midnight
+ and adjusted to default time zone, wrapping at 0 and 24*60*60*1000.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_BOOLEAN' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_BOOLEAN' qn='UPnPStateVariable.TYPE_BOOLEAN' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"boolean"'>
+   <lead>
+True or false.
+   </lead>
+   <description>
+True or false.
+ <p>
+ Mapped to {@code Boolean} object.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_BIN_BASE64' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_BIN_BASE64' qn='UPnPStateVariable.TYPE_BIN_BASE64' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"bin.base64"'>
+   <lead>
+MIME-style Base64 encoded binary BLOB.
+   </lead>
+   <description>
+MIME-style Base64 encoded binary BLOB.
+ <p>
+ Takes 3 Bytes, splits them into 4 parts, and maps each 6 bit piece to an
+ octet. (3 octets are encoded as 4.) No limit on size.
+ </p><p>
+ Mapped to {@code byte[]} object. The Java byte array will hold the
+ decoded content of the BLOB.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_BIN_HEX' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_BIN_HEX' qn='UPnPStateVariable.TYPE_BIN_HEX' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"bin.hex"'>
+   <lead>
+Hexadecimal digits representing octets.
+   </lead>
+   <description>
+Hexadecimal digits representing octets.
+ <p>
+ Treats each nibble as a hex digit and encodes as a separate Byte. (1
+ octet is encoded as 2.) No limit on size.
+ </p><p>
+ Mapped to {@code byte[]} object. The Java byte array will hold the
+ decoded content of the BLOB.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_URI' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_URI' qn='UPnPStateVariable.TYPE_URI' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"uri"'>
+   <lead>
+Universal Resource Identifier.
+   </lead>
+   <description>
+Universal Resource Identifier.
+ <p>
+ Mapped to {@code String} object.</p>
+   </description>
+
+     </field>
+    <field name='TYPE_UUID' fqn='org.osgi.service.upnp.UPnPStateVariable.TYPE_UUID' qn='UPnPStateVariable.TYPE_UUID' package='org.osgi.service.upnp' modifiers='public static final' typeName='String' qualifiedTypeName='java.lang.String' dimension='' constantValue='"uuid"'>
+   <lead>
+Universally Unique ID.
+   </lead>
+   <description>
+Universally Unique ID.
+ <p>
+ Hexadecimal digits representing octets. Optional embedded hyphens are
+ ignored.
+ </p><p>
+ Mapped to {@code String} object.</p>
+   </description>
+
+     </field>
+  </class>
+  </package>
+</top>

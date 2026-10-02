@@ -1,0 +1,7 @@
+org.osgi.impl.service.upnp.cp
+org.osgi.impl.service.upnp.cp.basedriver
+org.osgi.impl.service.upnp.cp.control
+org.osgi.impl.service.upnp.cp.description
+org.osgi.impl.service.upnp.cp.event
+org.osgi.impl.service.upnp.cp.ssdp
+org.osgi.impl.service.upnp.cp.util

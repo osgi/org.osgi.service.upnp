@@ -1,0 +1,72 @@
+@options
+@packages
+-classpath
+'/home/stbischof/.m2/repository/org/osgi/org.osgi.annotation.versioning/1.1.2/org.osgi.annotation.versioning-1.1.2.jar:/home/stbischof/.m2/repository/org/osgi/org.osgi.annotation.bundle/2.0.0/org.osgi.annotation.bundle-2.0.0.jar:/home/stbischof/.m2/repository/org/osgi/org.osgi.framework/1.10.0/org.osgi.framework-1.10.0.jar'
+-encoding
+'UTF-8'
+-protected
+--release
+8
+-sourcepath
+'/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/api/src/main/java:/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/generated-sources/annotations'
+-author
+-bottom
+'Copyright &#169; 1980 <a href="https://www.eclipse.org/">Eclipse Foundation</a>. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs'
+-docencoding
+'UTF-8'
+-Xdoclint:none
+-doctitle
+'OSGi Specification repo for org.osgi.service.upnp 1.2.2-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/javase/8/docs/api' '/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/javadoc-bundle-options'
+-notimestamp
+-tag
+"Immutable:t:Immutable"
+-tag
+"ThreadSafe:t:ThreadSafe"
+-tag
+"NotThreadSafe:t:NotThreadSafe"
+-tag
+"GuardedBy:mf:Guarded By:"
+-tag
+"security:m:Required Permissions"
+-tag
+"noimplement:t:Consumers of this API must not implement this interface"
+-tag
+"implNote:a:Implementation Note:"
+-use
+-version
+-windowtitle
+'OSGi Specification repo for org.osgi.service.upnp 1.2.2-SNAPSHOT API'
+org.osgi.service.upnp
+/home/stbischof/.m2/repository/org/osgi/org.osgi.annotation.versioning/1.1.2/org.osgi.annotation.versioning-1.1.2.jar = 1634136809000
+/home/stbischof/.m2/repository/org/osgi/org.osgi.annotation.bundle/2.0.0/org.osgi.annotation.bundle-2.0.0.jar = 1644360733000
+/home/stbischof/.m2/repository/org/osgi/org.osgi.framework/1.10.0/org.osgi.framework-1.10.0.jar = 1607377478000
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/api/src/main/java = 1790012146926
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/generated-sources/annotations = 1790091717544
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/element-list = 1790093844246
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/constant-values.html = 1790093844400
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/serialized-form.html = 1790093844434
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/overview-tree.html = 1790093844530
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/deprecated-list.html = 1790093844539
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/allclasses-index.html = 1790093844574
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/allpackages-index.html = 1790093844579
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/module-search-index.js = 1790093844581
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/package-search-index.js = 1790093844582
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/type-search-index.js = 1790093844582
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/member-search-index.js = 1790093844584
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/tag-search-index.js = 1790093844585
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/index-all.html = 1790093844629
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/search.html = 1790093844634
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/index.html = 1790093844637
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/help-doc.html = 1790093844670
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/stylesheet.css = 1790093844674
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/script.js = 1790093844676
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/copy.svg = 1790093844676
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/link.svg = 1790093844677
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/search.js = 1790093844681
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.upnp/spec/org.osgi.spec.service.upnp/target/apidocs/search-page.js = 1790093844683

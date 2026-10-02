@@ -1,0 +1,9 @@
+org/osgi/service/upnp/UPnPStateVariable.class
+org/osgi/service/upnp/UPnPEventListener.class
+org/osgi/service/upnp/UPnPLocalStateVariable.class
+org/osgi/service/upnp/UPnPIcon.class
+org/osgi/service/upnp/UPnPService.class
+org/osgi/service/upnp/package-info.class
+org/osgi/service/upnp/UPnPAction.class
+org/osgi/service/upnp/UPnPException.class
+org/osgi/service/upnp/UPnPDevice.class

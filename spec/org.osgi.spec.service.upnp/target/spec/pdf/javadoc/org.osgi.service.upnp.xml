@@ -1,0 +1,1942 @@
+<section xmlns="http://docbook.org/ns/docbook"
+         xreflabel="org.osgi.service.upnp"
+         version="5"
+         role="package"
+         xml:id="org.osgi.service.upnp">
+   <title>org.osgi.service.upnp</title>
+   <info>
+      <releaseinfo xml:id="org.osgi.service.upnp-version">Version 1.2</releaseinfo>
+      <edition xml:id="org.osgi.service.upnp-version.number">1.2</edition>
+   </info>
+   <para>
+UPnP Package Version 1.2.
+ 
+ </para>
+   <para>
+ Bundles wishing to use this package must list the package in the
+ Import-Package header of the bundle's manifest. This package has two types of
+ users: the consumers that use the API in this package and the providers that
+ implement the API in this package.
+ 
+ </para>
+   <para>
+ Example import for consumers using the API in this package:
+ </para>
+   <para>
+ {@code  Import-Package: org.osgi.service.upnp; version="[1.2,2.0)"}
+ </para>
+   <para>
+ Example import for providers implementing the API in this package:
+ </para>
+   <para>
+ {@code  Import-Package: org.osgi.service.upnp; version="[1.2,1.3)"}</para>
+   <section role="summary">
+      <title>Summary</title>
+      <itemizedlist>
+         <listitem>
+            <para>
+               <link linkend="org.osgi.service.upnp.UPnPAction">
+                  <code>UPnPAction</code>
+               </link> - 
+A UPnP action.
+   </para>
+         </listitem>
+         <listitem>
+            <para>
+               <link linkend="org.osgi.service.upnp.UPnPDevice">
+                  <code>UPnPDevice</code>
+               </link> - 
+Represents a UPnP device.
+   </para>
+         </listitem>
+         <listitem>
+            <para>
+               <link linkend="org.osgi.service.upnp.UPnPEventListener">
+                  <code>UPnPEventListener</code>
+               </link> - 
+UPnP Events are mapped and delivered to applications according to the OSGi
+ whiteboard model.
+   </para>
+         </listitem>
+         <listitem>
+            <para>
+               <link linkend="org.osgi.service.upnp.UPnPException">
+                  <code>UPnPException</code>
+               </link> - 
+There are several defined error situations describing UPnP problems while a
+ control point invokes actions to UPnPDevices.
+   </para>
+         </listitem>
+         <listitem>
+            <para>
+               <link linkend="org.osgi.service.upnp.UPnPIcon">
+                  <code>UPnPIcon</code>
+               </link> - 
+A UPnP icon representation.
+   </para>
+         </listitem>
+         <listitem>
+            <para>
+               <link linkend="org.osgi.service.upnp.UPnPLocalStateVariable">
+                  <code>UPnPLocalStateVariable</code>
+               </link> - 
+A local UPnP state variable which allows the value of the state variable to
+ be queried.
+   </para>
+         </listitem>
+         <listitem>
+            <para>
+               <link linkend="org.osgi.service.upnp.UPnPService">
+                  <code>UPnPService</code>
+               </link> - 
+A representation of a UPnP Service.
+   </para>
+         </listitem>
+         <listitem>
+            <para>
+               <link linkend="org.osgi.service.upnp.UPnPStateVariable">
+                  <code>UPnPStateVariable</code>
+               </link> - 
+The meta-information of a UPnP state variable as declared in the device's
+ service state table (SST).
+   </para>
+         </listitem>
+      </itemizedlist>
+   </section>
+   <section xreflabel="UPnPAction"
+            role="class"
+            xml:id="org.osgi.service.upnp.UPnPAction">
+      <title>public abstract UPnPAction</title>
+      <para>
+A UPnP action.
+ 
+ Each UPnP service contains zero or more actions. Each action may have zero or
+ more UPnP state variables as arguments.
+   </para>
+      <section xreflabel="getInputArgumentNames()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPAction.getInputArgumentNames--">
+         <title>public abstract String[][] getInputArgumentNames()</title>
+         <para role="description">
+Lists all input arguments for this action.
+ </para>
+         <para>
+ Each action may have zero or more input arguments.
+ 
+ </para>
+         <para>
+ This method must continue to return the action input argument names after
+ the UPnP action has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>Array of input argument names or {@code null} if no input
+         arguments.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>See Also</title>
+            <para>
+               <link linkend="org.osgi.service.upnp.UPnPStateVariable">UPnPStateVariable</link>
+            </para>
+         </formalpara>
+      </section>
+      <section xreflabel="getName()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPAction.getName--">
+         <title>public abstract String getName()</title>
+         <para role="description">
+Returns the action name.
+ 
+ The action name corresponds to the {@code name} field in the
+ {@code actionList} of the service description.
+ </para>
+         <itemizedlist>
+            <listitem>
+               <para>For standard actions defined by a UPnP Forum working committee,
+ action names must not begin with {@code X_ } nor {@code  A_}.</para>
+            </listitem>
+            <listitem>
+               <para>For non-standard actions specified by a UPnP vendor and added to a
+ standard service, action names must begin with {@code X_}.</para>
+            </listitem>
+         </itemizedlist>
+         <para>
+ This method must continue to return the action name after the UPnP action
+ has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>Name of action, must not contain a hyphen character or a hash
+         character</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getOutputArgumentNames()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPAction.getOutputArgumentNames--">
+         <title>public abstract String[][] getOutputArgumentNames()</title>
+         <para role="description">
+List all output arguments for this action.
+ 
+ </para>
+         <para>
+ This method must continue to return the action output argument names
+ after the UPnP action has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>Array of output argument names or {@code null} if there are no
+         output arguments.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>See Also</title>
+            <para>
+               <link linkend="org.osgi.service.upnp.UPnPStateVariable">UPnPStateVariable</link>
+            </para>
+         </formalpara>
+      </section>
+      <section xreflabel="getReturnArgumentName()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPAction.getReturnArgumentName--">
+         <title>public abstract String getReturnArgumentName()</title>
+         <para role="description">
+Returns the name of the designated return argument.
+ </para>
+         <para>
+ One of the output arguments can be flagged as a designated return
+ argument.
+ 
+ </para>
+         <para>
+ This method must continue to return the action return argument name after
+ the UPnP action has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The name of the designated return argument or {@code null} if
+         none is marked.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getStateVariable(String)"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPAction.getStateVariable-String-">
+         <title>public abstract UPnPStateVariable getStateVariable(String argumentName)</title>
+         <formalpara role="parameter">
+            <title>argumentName</title>
+            <para>The name of the UPnP action argument.</para>
+         </formalpara>
+         <para role="description">
+Finds the state variable associated with an argument name.
+ 
+ Helps to resolve the association of state variables with argument names
+ in UPnP actions.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>State variable associated with the named argument or {@code null}
+         if there is no such argument.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>IllegalStateException</code>– if the UPnP action has been removed from
+         the network.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>See Also</title>
+            <para>
+               <link linkend="org.osgi.service.upnp.UPnPStateVariable">UPnPStateVariable</link>
+            </para>
+         </formalpara>
+      </section>
+      <section xreflabel="invoke(Dictionary)"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPAction.invoke-Dictionary-">
+         <title>public abstract Dictionary&lt;String, Object&gt; invoke(Dictionary&lt;String, Object&gt; args) throws Exception</title>
+         <formalpara role="parameter">
+            <title>args</title>
+            <para>A {@code Dictionary} of arguments. Must contain the correct
+        set and type of arguments for this action. May be {@code null} if
+        no input arguments exist.</para>
+         </formalpara>
+         <para role="description">
+Invokes the action.
+ 
+ The input and output arguments are both passed as {@code Dictionary}
+ objects. Each entry in the {@code Dictionary} object has a {@code String}
+ object as key representing the argument name and the value is the
+ argument itself. The class of an argument value must be assignable from
+ the class of the associated UPnP state variable.
+ 
+ The input argument {@code Dictionary} object must contain exactly those
+ arguments listed by {@code getInputArguments} method. The output argument
+ {@code Dictionary} object will contain exactly those arguments listed by
+ {@code getOutputArguments} method.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>A {@code Dictionary} with the output arguments. {@code null} if
+         the action has no output arguments.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>UPnPException</code>– A UPnP error has occurred.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>IllegalStateException</code>– if the UPnP action has been removed from
+         the network.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>Exception</code>– The execution fails for some reason.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>See Also</title>
+            <para>
+               <link linkend="org.osgi.service.upnp.UPnPStateVariable">UPnPStateVariable</link>
+            </para>
+         </formalpara>
+      </section>
+   </section>
+   <section xreflabel="UPnPDevice"
+            role="class"
+            xml:id="org.osgi.service.upnp.UPnPDevice">
+      <title>public abstract UPnPDevice</title>
+      <para>
+Represents a UPnP device.
+ 
+ For each UPnP root and embedded device, an object is registered with the
+ framework under the {@code UPnPDevice} interface.
+ </para>
+      <para>
+ The relationship between a root device and its embedded devices can be
+ deduced using the {@code UPnPDevice.CHILDREN_UDN} and
+ {@code UPnPDevice.PARENT_UDN} service registration properties.
+ </para>
+      <para>
+ The values of the UPnP property names are defined by the UPnP Forum.
+ </para>
+      <para>
+ All values of the UPnP properties are obtained from the device using the
+ device's default locale.
+ </para>
+      <para>
+ If an application wants to query for a set of localized property values, it
+ has to use the method {@code UPnPDevice.getDescriptions(String locale)}.</para>
+      <section xreflabel="CHILDREN_UDN"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.CHILDREN_UDN">
+         <title>public static final String CHILDREN_UDN = "UPnP.device.childrenUDN"</title>
+         <para>
+The property key that must be set for all devices containing other
+ embedded devices.
+ </para>
+         <para>
+ The value is an array of UDNs for each of the device's children (
+ {@code String[]}). The array contains UDNs for the immediate descendants
+ only.
+ </para>
+         <para>
+ If an embedded device in turn contains embedded devices, the latter are
+ not included in the array.
+ </para>
+         <para>
+ The UPnP Specification does not encourage more than two levels of
+ nesting.
+ </para>
+         <para>
+ The property is not set if the device does not contain embedded devices.
+ </para>
+         <para>
+ The property is of type {@code String[]}. Value is
+ "UPnP.device.childrenUDN"</para>
+      </section>
+      <section xreflabel="DEVICE_CATEGORY"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.DEVICE_CATEGORY">
+         <title>public static final String DEVICE_CATEGORY = "UPnP"</title>
+         <para>
+Constant for the value of the service property {@code DEVICE_CATEGORY}
+ used for all UPnP devices. Value is "UPnP".
+   </para>
+         <formalpara role="parameter">
+            <title>See Also</title>
+            <para>
+               <code>org.osgi.service.device.Constants.DEVICE_CATEGORY</code>
+            </para>
+         </formalpara>
+      </section>
+      <section xreflabel="FRIENDLY_NAME"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.FRIENDLY_NAME">
+         <title>public static final String FRIENDLY_NAME = "UPnP.device.friendlyName"</title>
+         <para>
+Mandatory property key for a short user friendly version of the device
+ name. The property value holds a {@code String} object with the user
+ friendly name of the device. Value is "UPnP.device.friendlyName".
+   </para>
+      </section>
+      <section xreflabel="ID"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.ID">
+         <title>public static final String ID = "UPnP.device.UDN"</title>
+         <para>
+Property key for the Unique Device ID property. This property is an alias
+ to {@code UPnPDevice.UDN}. It is merely provided for reasons of symmetry
+ with the {@code UPnPService.ID} property. The value of the property is a
+ {@code String} object of the Device UDN. The value of the key is
+ "UPnP.device.UDN".
+   </para>
+      </section>
+      <section xreflabel="MANUFACTURER"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.MANUFACTURER">
+         <title>public static final String MANUFACTURER = "UPnP.device.manufacturer"</title>
+         <para>
+Mandatory property key for the device manufacturer's property. The
+ property value holds a String representation of the device manufacturer's
+ name. Value is "UPnP.device.manufacturer".
+   </para>
+      </section>
+      <section xreflabel="MANUFACTURER_URL"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.MANUFACTURER_URL">
+         <title>public static final String MANUFACTURER_URL = "UPnP.device.manufacturerURL"</title>
+         <para>
+Optional property key for a URL to the device manufacturers Web site. The
+ value of the property is a {@code String} object representing the URL.
+ Value is "UPnP.device.manufacturerURL".
+   </para>
+      </section>
+      <section xreflabel="MATCH_GENERIC"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.MATCH_GENERIC">
+         <title>public static final int MATCH_GENERIC = 1</title>
+         <para>
+Constant for the UPnP device match scale, indicating a generic match for
+ the device. Value is 1.
+   </para>
+      </section>
+      <section xreflabel="MATCH_MANUFACTURER_MODEL"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.MATCH_MANUFACTURER_MODEL">
+         <title>public static final int MATCH_MANUFACTURER_MODEL = 7</title>
+         <para>
+Constant for the UPnP device match scale, indicating a match with the
+ device model. Value is 7.
+   </para>
+      </section>
+      <section xreflabel="MATCH_MANUFACTURER_MODEL_REVISION"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.MATCH_MANUFACTURER_MODEL_REVISION">
+         <title>public static final int MATCH_MANUFACTURER_MODEL_REVISION = 15</title>
+         <para>
+Constant for the UPnP device match scale, indicating a match with the
+ device revision. Value is 15.
+   </para>
+      </section>
+      <section xreflabel="MATCH_MANUFACTURER_MODEL_REVISION_SERIAL"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.MATCH_MANUFACTURER_MODEL_REVISION_SERIAL">
+         <title>public static final int MATCH_MANUFACTURER_MODEL_REVISION_SERIAL = 31</title>
+         <para>
+Constant for the UPnP device match scale, indicating a match with the
+ device revision and the serial number. Value is 31.
+   </para>
+      </section>
+      <section xreflabel="MATCH_TYPE"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.MATCH_TYPE">
+         <title>public static final int MATCH_TYPE = 3</title>
+         <para>
+Constant for the UPnP device match scale, indicating a match with the
+ device type. Value is 3.
+   </para>
+      </section>
+      <section xreflabel="MODEL_DESCRIPTION"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.MODEL_DESCRIPTION">
+         <title>public static final String MODEL_DESCRIPTION = "UPnP.device.modelDescription"</title>
+         <para>
+Optional (but recommended) property key for a {@code String} object with
+ a long description of the device for the end user. The value is
+ "UPnP.device.modelDescription".
+   </para>
+      </section>
+      <section xreflabel="MODEL_NAME"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.MODEL_NAME">
+         <title>public static final String MODEL_NAME = "UPnP.device.modelName"</title>
+         <para>
+Mandatory property key for the device model name. The property value
+ holds a {@code String} object giving more information about the device
+ model. Value is "UPnP.device.modelName".
+   </para>
+      </section>
+      <section xreflabel="MODEL_NUMBER"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.MODEL_NUMBER">
+         <title>public static final String MODEL_NUMBER = "UPnP.device.modelNumber"</title>
+         <para>
+Optional (but recommended) property key for a {@code String} class typed
+ property holding the model number of the device. Value is
+ "UPnP.device.modelNumber".
+   </para>
+      </section>
+      <section xreflabel="MODEL_URL"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.MODEL_URL">
+         <title>public static final String MODEL_URL = "UPnP.device.modelURL"</title>
+         <para>
+Optional property key for a {@code String} typed property holding a
+ string representing the URL to the Web site for this model. Value is
+ "UPnP.device.modelURL".
+   </para>
+      </section>
+      <section xreflabel="PARENT_UDN"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.PARENT_UDN">
+         <title>public static final String PARENT_UDN = "UPnP.device.parentUDN"</title>
+         <para>
+The property key that must be set for all embedded devices. It contains
+ the UDN of the parent device. The property is not set for root devices.
+ The value is "UPnP.device.parentUDN".
+   </para>
+      </section>
+      <section xreflabel="PRESENTATION_URL"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.PRESENTATION_URL">
+         <title>public static final String PRESENTATION_URL = "UPnP.presentationURL"</title>
+         <para>
+Optional (but recommended) property key for a {@code String} typed
+ property holding a string representing the URL to a device representation
+ Web page. Value is "UPnP.presentationURL".
+   </para>
+      </section>
+      <section xreflabel="SERIAL_NUMBER"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.SERIAL_NUMBER">
+         <title>public static final String SERIAL_NUMBER = "UPnP.device.serialNumber"</title>
+         <para>
+Optional (but recommended) property key for a {@code String} typed
+ property holding the serial number of the device. Value is
+ "UPnP.device.serialNumber".
+   </para>
+      </section>
+      <section xreflabel="TYPE"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.TYPE">
+         <title>public static final String TYPE = "UPnP.device.type"</title>
+         <para>
+Property key for the UPnP Device Type property. Some standard property
+ values are defined by the Universal Plug and Play Forum. The type string
+ also includes a version number as defined in the UPnP specification. This
+ property must be set.
+ </para>
+         <para>
+ For standard devices defined by a UPnP Forum working committee, this must
+ consist of the following components in the given order separated by
+ colons:
+ </para>
+         <itemizedlist>
+            <listitem>
+               <para>{@code urn}</para>
+            </listitem>
+            <listitem>
+               <para>schemas-upnp-org</para>
+            </listitem>
+            <listitem>
+               <para>{@code device}</para>
+            </listitem>
+            <listitem>
+               <para>a device type suffix</para>
+            </listitem>
+            <listitem>
+               <para>an integer device version</para>
+            </listitem>
+         </itemizedlist>
+         <para>
+ For non-standard devices specified by UPnP vendors following components
+ must be specified in the given order separated by colons:
+ </para>
+         <itemizedlist>
+            <listitem>
+               <para>{@code urn}</para>
+            </listitem>
+            <listitem>
+               <para>an ICANN domain name owned by the vendor</para>
+            </listitem>
+            <listitem>
+               <para>{@code device}</para>
+            </listitem>
+            <listitem>
+               <para>a device type suffix</para>
+            </listitem>
+            <listitem>
+               <para>an integer device version</para>
+            </listitem>
+         </itemizedlist>
+         <para>
+ To allow for backward compatibility the UPnP driver must automatically
+ generate additional Device Type property entries for smaller versions
+ than the current one. If for example a device announces its type as
+ version 3, then properties for versions 2 and 1 must be automatically
+ generated.
+ </para>
+         <para>
+ In the case of exporting a UPnPDevice, the highest available version must
+ be announced on the network.
+ </para>
+         <para>
+ Syntax Example: {@code urn:schemas-upnp-org:device:deviceType:v}
+ </para>
+         <para>
+ The value is "UPnP.device.type".</para>
+      </section>
+      <section xreflabel="UDN"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.UDN">
+         <title>public static final String UDN = "UPnP.device.UDN"</title>
+         <para>
+Property key for the Unique Device Name (UDN) property. It is the unique
+ identifier of an instance of a {@code UPnPDevice}. The value of the
+ property is a {@code String} object of the Device UDN. Value of the key
+ is "UPnP.device.UDN". This property must be set.
+   </para>
+      </section>
+      <section xreflabel="UPC"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.UPC">
+         <title>public static final String UPC = "UPnP.device.UPC"</title>
+         <para>
+Optional property key for a {@code String} typed property holding the
+ Universal Product Code (UPC) of the device. Value is "UPnP.device.UPC".
+   </para>
+      </section>
+      <section xreflabel="UPNP_EXPORT"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPDevice.UPNP_EXPORT">
+         <title>public static final String UPNP_EXPORT = "UPnP.export"</title>
+         <para>
+The {@code UPnP.export} service property is a hint that marks a device to
+ be picked up and exported by the UPnP Service. Imported devices do not
+ have this property set. The registered property requires no value.
+ </para>
+         <para>
+ The UPNP_EXPORT string is "UPnP.export".</para>
+      </section>
+      <section xreflabel="getDescriptions(String)"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPDevice.getDescriptions-String-">
+         <title>public abstract Dictionary&lt;String, Object&gt; getDescriptions(String locale)</title>
+         <formalpara role="parameter">
+            <title>locale</title>
+            <para>A language tag as defined by RFC 1766 and maintained by ISO
+        639. Examples include "{@code de}", "{@code en}" or "
+        {@code en-US}". The default locale of the device is specified by
+        passing a {@code null} argument.</para>
+         </formalpara>
+         <para role="description">
+Get a set of localized UPnP properties.
+ 
+ The UPnP specification allows a device to present different device
+ properties based on the client's locale. The properties used to register
+ the UPnPDevice service in the OSGi registry are based on the device's
+ default locale. To obtain a localized set of the properties, an
+ application can use this method.
+ </para>
+         <para>
+ Not all properties might be available in all locales. This method does
+ <emphasis role="strong">not </emphasis> substitute missing properties with their default locale
+ versions.
+ </para>
+         <para>
+ This method must continue to return the properties after the UPnP device
+ has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>Dictionary mapping property name Strings to property value
+         Strings</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getIcons(String)"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPDevice.getIcons-String-">
+         <title>public abstract UPnPIcon[][] getIcons(String locale)</title>
+         <formalpara role="parameter">
+            <title>locale</title>
+            <para>A language tag as defined by RFC 1766 and maintained by ISO
+        639. Examples include "{@code de}", "{@code en}" or "
+        {@code en-US}". The default locale of the device is specified by
+        passing a {@code null} argument.</para>
+         </formalpara>
+         <para role="description">
+Lists all icons for this device in a given locale.
+ 
+ The UPnP specification allows a device to present different icons based
+ on the client's locale.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>Array of icons or null if no icons are available.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>IllegalStateException</code>– if the UPnP device has been removed from
+         the network.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getService(String)"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPDevice.getService-String-">
+         <title>public abstract UPnPService getService(String serviceId)</title>
+         <formalpara role="parameter">
+            <title>serviceId</title>
+            <para>The service id</para>
+         </formalpara>
+         <para role="description">
+Locates a specific service by its service id.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The requested service or null if not found.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>IllegalStateException</code>– if the UPnP device has been removed from
+         the network.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getServices()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPDevice.getServices--">
+         <title>public abstract UPnPService[][] getServices()</title>
+         <para role="description">
+Lists all services provided by this device.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>Array of services or {@code null} if no services are available.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>IllegalStateException</code>– if the UPnP device has been removed from
+         the network.</para>
+         </formalpara>
+      </section>
+   </section>
+   <section xreflabel="UPnPEventListener"
+            role="class"
+            xml:id="org.osgi.service.upnp.UPnPEventListener">
+      <title>public abstract UPnPEventListener</title>
+      <para>
+UPnP Events are mapped and delivered to applications according to the OSGi
+ whiteboard model. An application that wishes to be notified of events
+ generated by a particular UPnP Device registers a service extending this
+ interface.
+ </para>
+      <para>
+ The notification call from the UPnP Service to any {@code UPnPEventListener}
+ object must be done asynchronous with respect to the originator (in a
+ separate thread).
+ </para>
+      <para>
+ Upon registration of the UPnP Event Listener service with the Framework, the
+ service is notified for each variable which it listens for with an initial
+ event containing the current value of the variable. Subsequent notifications
+ only happen on changes of the value of the variable.
+ </para>
+      <para>
+ A UPnP Event Listener service filter the events it receives. This event set
+ is limited using a standard framework filter expression which is specified
+ when the listener service is registered.
+ </para>
+      <para>
+ The filter is specified in a property named "upnp.filter" and has as a value
+ an object of type {@code org.osgi.framework.Filter}.
+ </para>
+      <para>
+ When the Filter is evaluated, the following keywords are recognized as
+ defined as literal constants in the {@code UPnPDevice} class.
+ </para>
+      <para>
+ The valid subset of properties for the registration of UPnP Event Listener
+ services are:
+ </para>
+      <itemizedlist>
+         <listitem>
+            <para>{@code UPnPDevice.TYPE}-- Which type of device to listen for events.</para>
+         </listitem>
+         <listitem>
+            <para>{@code UPnPDevice.ID}-- The ID of a specific device to listen for events.
+ </para>
+         </listitem>
+         <listitem>
+            <para>{@code UPnPService.TYPE}-- The type of a specific service to listen for
+ events.</para>
+         </listitem>
+         <listitem>
+            <para>{@code UPnPService.ID}-- The ID of a specific service to listen for
+ events.</para>
+         </listitem>
+      </itemizedlist>
+      <section xreflabel="UPNP_FILTER"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPEventListener.UPNP_FILTER">
+         <title>public static final String UPNP_FILTER = "upnp.filter"</title>
+         <para>
+Key for a service property having a value that is an object of type
+ {@code org.osgi.framework.Filter} and that is used to limit received
+ events.
+   </para>
+      </section>
+      <section xreflabel="notifyUPnPEvent(String,String,Dictionary)"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPEventListener.notifyUPnPEvent-String-String-Dictionary-">
+         <title>public abstract void notifyUPnPEvent(String deviceId, String serviceId, Dictionary&lt;String, Object&gt; events)</title>
+         <formalpara role="parameter">
+            <title>deviceId</title>
+            <para>ID of the device sending the events</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>serviceId</title>
+            <para>ID of the service sending the events</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>events</title>
+            <para>{@code Dictionary} object containing the new values for the
+        state variables that have changed.</para>
+         </formalpara>
+         <para role="description">
+Callback method that is invoked for received events.
+ 
+ The events are collected in a {@code Dictionary} object. Each entry has a
+ {@code String} key representing the event name (= state variable name)
+ and the new value of the state variable. The class of the value object
+ must match the class specified by the UPnP State Variable associated with
+ the event. This method must be called asynchronously
+   </para>
+      </section>
+   </section>
+   <section xreflabel="UPnPException"
+            role="class"
+            xml:id="org.osgi.service.upnp.UPnPException">
+      <title>public class UPnPException<?line-break?> extends Exception</title>
+      <para>
+There are several defined error situations describing UPnP problems while a
+ control point invokes actions to UPnPDevices.
+   </para>
+      <formalpara role="parameter">
+         <title>Since</title>
+         <para>@since 1.1</para>
+      </formalpara>
+      <section xreflabel="DEVICE_INTERNAL_ERROR"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPException.DEVICE_INTERNAL_ERROR">
+         <title>public static final int DEVICE_INTERNAL_ERROR = 501</title>
+         <para>
+The invoked action failed during execution.
+   </para>
+      </section>
+      <section xreflabel="INVALID_ACTION"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPException.INVALID_ACTION">
+         <title>public static final int INVALID_ACTION = 401</title>
+         <para>
+No Action found by that name at this service.
+   </para>
+      </section>
+      <section xreflabel="INVALID_ARGS"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPException.INVALID_ARGS">
+         <title>public static final int INVALID_ARGS = 402</title>
+         <para>
+Not enough arguments, too many arguments with a specific name, or one of
+ more of the arguments are of the wrong type.
+   </para>
+      </section>
+      <section xreflabel="INVALID_SEQUENCE_NUMBER"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPException.INVALID_SEQUENCE_NUMBER">
+         <title>public static final int INVALID_SEQUENCE_NUMBER = 403</title>
+         <para>
+The different end-points are no longer in synchronization.
+   </para>
+      </section>
+      <section xreflabel="INVALID_VARIABLE"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPException.INVALID_VARIABLE">
+         <title>public static final int INVALID_VARIABLE = 404</title>
+         <para>
+Refers to a non existing variable.
+   </para>
+      </section>
+      <section xreflabel="UPnPException(int,String)"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPException.UPnPException-int-String-">
+         <title>public  UPnPException(int errorCode, String errorDescription)</title>
+         <formalpara role="parameter">
+            <title>errorCode</title>
+            <para>error code which defined by UPnP Device Architecture
+        V1.0.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>errorDescription</title>
+            <para>error description which explain the type of
+        problem.</para>
+         </formalpara>
+         <para role="description">
+This constructor creates a {@code UPnPException} on the specified error
+ code and error description.
+   </para>
+      </section>
+      <section xreflabel="UPnPException(int,String,Throwable)"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPException.UPnPException-int-String-Throwable-">
+         <title>public  UPnPException(int errorCode, String errorDescription, Throwable errorCause)</title>
+         <formalpara role="parameter">
+            <title>errorCode</title>
+            <para>error code which defined by UPnP Device Architecture
+        V1.0.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>errorDescription</title>
+            <para>error description which explain the type of the
+        problem.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>errorCause</title>
+            <para>cause of that {@code UPnPException}.</para>
+         </formalpara>
+         <para role="description">
+This constructor creates a {@code UPnPException} on the specified error
+ code, error description and error cause.
+   </para>
+         <formalpara role="parameter">
+            <title>Since</title>
+            <para>@since 1.2</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getUPnPError_Code()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPException.getUPnPError_Code--">
+         <title>public int getUPnPError_Code()</title>
+         <para role="description">
+Returns the UPnPError Code occurred by UPnPDevices during invocation.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The UPnPErrorCode defined by a UPnP Forum working committee or
+         specified by a UPnP vendor.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Deprecated</title>
+            <para>@deprecated As of 1.2. Replaced by {@link #getUPnPErrorCode()}.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getUPnPErrorCode()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPException.getUPnPErrorCode--">
+         <title>public int getUPnPErrorCode()</title>
+         <para role="description">
+Returns the UPnP Error Code occurred by UPnPDevices during invocation.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The UPnPErrorCode defined by a UPnP Forum working committee or
+         specified by a UPnP vendor.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Since</title>
+            <para>@since 1.2</para>
+         </formalpara>
+      </section>
+   </section>
+   <section xreflabel="UPnPIcon"
+            role="class"
+            xml:id="org.osgi.service.upnp.UPnPIcon">
+      <title>public abstract UPnPIcon</title>
+      <para>
+A UPnP icon representation.
+ 
+ Each UPnP device can contain zero or more icons.
+   </para>
+      <section xreflabel="getDepth()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPIcon.getDepth--">
+         <title>public abstract int getDepth()</title>
+         <para role="description">
+Returns the color depth of the icon in bits.
+ 
+ </para>
+         <para>
+ This method must continue to return the icon depth after the UPnP device
+ has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The color depth in bits. If the actual color depth of the icon is
+         unknown, -1 is returned.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getHeight()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPIcon.getHeight--">
+         <title>public abstract int getHeight()</title>
+         <para role="description">
+Returns the height of the icon in pixels.
+ 
+ If the actual height of the icon is unknown, -1 is returned.
+ 
+ </para>
+         <para>
+ This method must continue to return the icon height after the UPnP device
+ has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The height in pixels, or -1 if unknown.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getInputStream()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPIcon.getInputStream--">
+         <title>public abstract InputStream getInputStream() throws IOException</title>
+         <para role="description">
+Returns an {@code InputStream} object for the icon data.
+ 
+ The {@code InputStream} object provides a way for a client to read the
+ actual icon graphics data. The number of bytes available from this
+ {@code InputStream} object can be determined via the {@code getSize()}
+ method. The format of the data encoded can be determined by the MIME type
+ available via the {@code getMimeType()} method.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>An InputStream to read the icon graphics data from.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>IOException</code>– If the {@code InputStream} cannot be returned.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>IllegalStateException</code>– if the UPnP device has been removed from
+         the network.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>See Also</title>
+            <para>
+               <link linkend="org.osgi.service.upnp.UPnPIcon.getMimeType--">UPnPIcon.getMimeType()</link>
+            </para>
+         </formalpara>
+      </section>
+      <section xreflabel="getMimeType()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPIcon.getMimeType--">
+         <title>public abstract String getMimeType()</title>
+         <para role="description">
+Returns the MIME type of the icon.
+ 
+ This method returns the format in which the icon graphics, read from the
+ {@code InputStream} object obtained by the {@code getInputStream()}
+ method, is encoded.
+ </para>
+         <para>
+ The format of the returned string is in accordance to RFC2046. A list of
+ valid MIME types is maintained by the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                  xlink:href="http://www.iana.org/assignments/media-types/">IANA</link>.
+ </para>
+         <para>
+ Typical values returned include: "image/jpeg" or "image/gif"
+ 
+ </para>
+         <para>
+ This method must continue to return the icon MIME type after the UPnP
+ device has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The MIME type of the encoded icon.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getSize()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPIcon.getSize--">
+         <title>public abstract int getSize()</title>
+         <para role="description">
+Returns the size of the icon in bytes.
+ 
+ This method returns the number of bytes of the icon available to read
+ from the {@code InputStream} object obtained by the
+ {@code getInputStream()} method. If the actual size can not be
+ determined, -1 is returned.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The icon size in bytes, or -1 if the size is unknown.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>IllegalStateException</code>– if the UPnP device has been removed from
+         the network.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getWidth()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPIcon.getWidth--">
+         <title>public abstract int getWidth()</title>
+         <para role="description">
+Returns the width of the icon in pixels.
+ 
+ If the actual width of the icon is unknown, -1 is returned.
+ 
+ </para>
+         <para>
+ This method must continue to return the icon width after the UPnP device
+ has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The width in pixels, or -1 if unknown.</para>
+         </formalpara>
+      </section>
+   </section>
+   <section xreflabel="UPnPLocalStateVariable"
+            role="class"
+            xml:id="org.osgi.service.upnp.UPnPLocalStateVariable">
+      <title>public abstract UPnPLocalStateVariable<?line-break?> extends UPnPStateVariable</title>
+      <para>
+A local UPnP state variable which allows the value of the state variable to
+ be queried.
+   </para>
+      <formalpara role="parameter">
+         <title>Since</title>
+         <para>@since 1.1</para>
+      </formalpara>
+      <section xreflabel="getCurrentValue()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPLocalStateVariable.getCurrentValue--">
+         <title>public abstract Object getCurrentValue()</title>
+         <para role="description">
+This method will keep the current values of UPnPStateVariables of a
+ UPnPDevice whenever UPnPStateVariable's value is changed , this method
+ must be called.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>{@code Object} current value of UPnPStateVariable. If the current
+         value is initialized with the default value defined UPnP service
+         description.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>IllegalStateException</code>– If the UPnP state variable has been
+             removed.</para>
+         </formalpara>
+      </section>
+   </section>
+   <section xreflabel="UPnPService"
+            role="class"
+            xml:id="org.osgi.service.upnp.UPnPService">
+      <title>public abstract UPnPService</title>
+      <para>
+A representation of a UPnP Service.
+ 
+ Each UPnP device contains zero or more services. The UPnP description for a
+ service defines actions, their arguments, and event characteristics.
+   </para>
+      <section xreflabel="ID"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPService.ID">
+         <title>public static final String ID = "UPnP.service.id"</title>
+         <para>
+Property key for the optional service id.
+ 
+ The service id property is used when registering UPnP Device services or
+ UPnP Event Listener services. The value of the property contains a
+ {@code String} array ({@code String[]}) of service ids. A UPnP Device
+ service can thus announce what service ids it contains. A UPnP Event
+ Listener service can announce for what UPnP service ids it wants
+ notifications. A service id does <emphasis role="strong">not </emphasis> have to be universally
+ unique. It must be unique only within a device. A {@code null} value is a
+ wildcard, matching <emphasis role="strong">all </emphasis> services. The value is "UPnP.service.id".
+   </para>
+      </section>
+      <section xreflabel="TYPE"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPService.TYPE">
+         <title>public static final String TYPE = "UPnP.service.type"</title>
+         <para>
+Property key for the optional service type uri.
+ 
+ The service type property is used when registering UPnP Device services
+ and UPnP Event Listener services. The property contains a {@code String}
+ array ({@code String[]}) of service types. A UPnP Device service can thus
+ announce what types of services it contains. A UPnP Event Listener
+ service can announce for what type of UPnP services it wants
+ notifications. The service version is encoded in the type string as
+ specified in the UPnP specification. A {@code null} value is a wildcard,
+ matching <emphasis role="strong">all </emphasis> service types. Value is "UPnP.service.type".
+   </para>
+         <formalpara role="parameter">
+            <title>See Also</title>
+            <para>
+               <link linkend="org.osgi.service.upnp.UPnPService.getType--">UPnPService.getType()</link>
+            </para>
+         </formalpara>
+      </section>
+      <section xreflabel="getAction(String)"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPService.getAction-String-">
+         <title>public abstract UPnPAction getAction(String name)</title>
+         <formalpara role="parameter">
+            <title>name</title>
+            <para>Name of action. Must not contain hyphen or hash characters.
+        Should be &lt; 32 characters.</para>
+         </formalpara>
+         <para role="description">
+Locates a specific action by name.
+ 
+ Looks up an action by its name.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The requested action or {@code null} if no action is found.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>IllegalStateException</code>– if the UPnP service has been removed from
+         the network.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getActions()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPService.getActions--">
+         <title>public abstract UPnPAction[][] getActions()</title>
+         <para role="description">
+Lists all actions provided by this service.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>Array of actions ({@code UPnPAction[]} )or {@code null} if no
+         actions are defined for this service.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>IllegalStateException</code>– if the UPnP service has been removed from
+         the network.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getId()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPService.getId--">
+         <title>public abstract String getId()</title>
+         <para role="description">
+Returns the {@code serviceId} field in the UPnP service description.
+ 
+ 
+ </para>
+         <para>
+ For standard services defined by a UPnP Forum working committee, the
+ serviceId must contain the following components in the indicated order:
+ </para>
+         <itemizedlist>
+            <listitem>
+               <para>{@code urn:upnp-org:serviceId:}</para>
+            </listitem>
+            <listitem>
+               <para>service ID suffix</para>
+            </listitem>
+         </itemizedlist>
+         <para>
+ Example: {@code urn:upnp-org:serviceId:serviceID}.
+ 
+ </para>
+         <para>
+ Note that {@code upnp-org} is used instead of {@code schemas-upnp-org} in
+ this example because an XML schema is not defined for each serviceId.
+ </para>
+         <para>
+ For non-standard services specified by UPnP vendors, the serviceId must
+ contain the following components in the indicated order:
+ </para>
+         <itemizedlist>
+            <listitem>
+               <para>{@code urn:}</para>
+            </listitem>
+            <listitem>
+               <para>ICANN domain name owned by the vendor</para>
+            </listitem>
+            <listitem>
+               <para>{@code :serviceId:}</para>
+            </listitem>
+            <listitem>
+               <para>service ID suffix</para>
+            </listitem>
+         </itemizedlist>
+         <para>
+ Example: {@code urn:domain-name:serviceId:serviceID}.
+ 
+ </para>
+         <para>
+ This method must continue to return the service id after the UPnP service
+ has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The service ID suffix defined by a UPnP Forum working committee
+         or specified by a UPnP vendor. Must be &lt;= 64 characters.
+         Single URI.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getStateVariable(String)"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPService.getStateVariable-String-">
+         <title>public abstract UPnPStateVariable getStateVariable(String name)</title>
+         <formalpara role="parameter">
+            <title>name</title>
+            <para>Name of the State Variable</para>
+         </formalpara>
+         <para role="description">
+Gets a {@code UPnPStateVariable} objects provided by this service by name
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>State variable or {@code null} if no such state variable exists
+         for this service.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>IllegalStateException</code>– if the UPnP service has been removed from
+         the network.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getStateVariables()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPService.getStateVariables--">
+         <title>public abstract UPnPStateVariable[][] getStateVariables()</title>
+         <para role="description">
+Lists all {@code UPnPStateVariable} objects provided by this service.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>Array of state variables or {@code null} if none are defined for
+         this service.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>IllegalStateException</code>– if the UPnP service has been removed from
+         the network.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getType()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPService.getType--">
+         <title>public abstract String getType()</title>
+         <para role="description">
+Returns the {@code serviceType} field in the UPnP service description.
+ 
+ </para>
+         <para>
+ For standard services defined by a UPnP Forum working committee, the
+ serviceType must contain the following components in the indicated order:
+ </para>
+         <itemizedlist>
+            <listitem>
+               <para>{@code urn:schemas-upnp-org:service:}</para>
+            </listitem>
+            <listitem>
+               <para>service type suffix:</para>
+            </listitem>
+            <listitem>
+               <para>integer service version</para>
+            </listitem>
+         </itemizedlist>
+         <para>
+ Example: {@code urn:schemas-upnp-org:service:serviceType:v}.
+ 
+ </para>
+         <para>
+ For non-standard services specified by UPnP vendors, the
+ {@code serviceType} must contain the following components in the
+ indicated order:
+ </para>
+         <itemizedlist>
+            <listitem>
+               <para>{@code urn:}</para>
+            </listitem>
+            <listitem>
+               <para>ICANN domain name owned by the vendor</para>
+            </listitem>
+            <listitem>
+               <para>{@code :service:}</para>
+            </listitem>
+            <listitem>
+               <para>service type suffix:</para>
+            </listitem>
+            <listitem>
+               <para>integer service version</para>
+            </listitem>
+         </itemizedlist>
+         <para>
+ Example: {@code urn:domain-name:service:serviceType:v}.
+ 
+ </para>
+         <para>
+ This method must continue to return the service type after the UPnP
+ service has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The service type suffix defined by a UPnP Forum working committee
+         or specified by a UPnP vendor. Must be &lt;= 64 characters, not
+         including the version suffix and separating colon. Single URI.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getVersion()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPService.getVersion--">
+         <title>public abstract String getVersion()</title>
+         <para role="description">
+Returns the version suffix encoded in the {@code serviceType} field in
+ the UPnP service description.
+ 
+ </para>
+         <para>
+ This method must continue to return the service version after the UPnP
+ service has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The integer service version defined by a UPnP Forum working
+         committee or specified by a UPnP vendor.</para>
+         </formalpara>
+      </section>
+   </section>
+   <section xreflabel="UPnPStateVariable"
+            role="class"
+            xml:id="org.osgi.service.upnp.UPnPStateVariable">
+      <title>public abstract UPnPStateVariable</title>
+      <para>
+The meta-information of a UPnP state variable as declared in the device's
+ service state table (SST).
+ </para>
+      <para>
+ Method calls to interact with a device (e.g. {@code UPnPAction.invoke(...);})
+ use this class to encapsulate meta information about the input and output
+ arguments.
+ </para>
+      <para>
+ The actual values of the arguments are passed as Java objects. The mapping of
+ types from UPnP data types to Java data types is described with the field
+ definitions.</para>
+      <section xreflabel="TYPE_BIN_BASE64"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_BIN_BASE64">
+         <title>public static final String TYPE_BIN_BASE64 = "bin.base64"</title>
+         <para>
+MIME-style Base64 encoded binary BLOB.
+ </para>
+         <para>
+ Takes 3 Bytes, splits them into 4 parts, and maps each 6 bit piece to an
+ octet. (3 octets are encoded as 4.) No limit on size.
+ </para>
+         <para>
+ Mapped to {@code byte[]} object. The Java byte array will hold the
+ decoded content of the BLOB.</para>
+      </section>
+      <section xreflabel="TYPE_BIN_HEX"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_BIN_HEX">
+         <title>public static final String TYPE_BIN_HEX = "bin.hex"</title>
+         <para>
+Hexadecimal digits representing octets.
+ </para>
+         <para>
+ Treats each nibble as a hex digit and encodes as a separate Byte. (1
+ octet is encoded as 2.) No limit on size.
+ </para>
+         <para>
+ Mapped to {@code byte[]} object. The Java byte array will hold the
+ decoded content of the BLOB.</para>
+      </section>
+      <section xreflabel="TYPE_BOOLEAN"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_BOOLEAN">
+         <title>public static final String TYPE_BOOLEAN = "boolean"</title>
+         <para>
+True or false.
+ </para>
+         <para>
+ Mapped to {@code Boolean} object.</para>
+      </section>
+      <section xreflabel="TYPE_CHAR"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_CHAR">
+         <title>public static final String TYPE_CHAR = "char"</title>
+         <para>
+Unicode string.
+ </para>
+         <para>
+ One character long.
+ </para>
+         <para>
+ Mapped to {@code Character} object.</para>
+      </section>
+      <section xreflabel="TYPE_DATE"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_DATE">
+         <title>public static final String TYPE_DATE = "date"</title>
+         <para>
+A calendar date.
+ </para>
+         <para>
+ Date in a subset of ISO 8601 format without time data.
+ </para>
+         <para>
+ See <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                  xlink:href="http://www.w3.org/TR/xmlschema-2/#date">http://www.w3.org/TR/
+ xmlschema-2/#date </link>.
+ </para>
+         <para>
+ Mapped to {@code java.util.Date} object. Always 00:00 hours.</para>
+      </section>
+      <section xreflabel="TYPE_DATETIME"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_DATETIME">
+         <title>public static final String TYPE_DATETIME = "dateTime"</title>
+         <para>
+A specific instant of time.
+ </para>
+         <para>
+ Date in ISO 8601 format with optional time but no time zone.
+ </para>
+         <para>
+ See <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                  xlink:href="http://www.w3.org/TR/xmlschema-2/#dateTime">http://www.w3.org
+ /TR/xmlschema-2/#dateTime </link>.
+ </para>
+         <para>
+ Mapped to {@code java.util.Date} object using default time zone.</para>
+      </section>
+      <section xreflabel="TYPE_DATETIME_TZ"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_DATETIME_TZ">
+         <title>public static final String TYPE_DATETIME_TZ = "dateTime.tz"</title>
+         <para>
+A specific instant of time.
+ </para>
+         <para>
+ Date in ISO 8601 format with optional time and optional time zone.
+ </para>
+         <para>
+ See <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                  xlink:href="http://www.w3.org/TR/xmlschema-2/#dateTime">http://www.w3.org
+ /TR/xmlschema-2/#dateTime </link>.
+ </para>
+         <para>
+ Mapped to {@code java.util.Date} object adjusted to default time zone.</para>
+      </section>
+      <section xreflabel="TYPE_FIXED_14_4"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_FIXED_14_4">
+         <title>public static final String TYPE_FIXED_14_4 = "fixed.14.4"</title>
+         <para>
+Same as r8 but no more than 14 digits to the left of the decimal point
+ and no more than 4 to the right.
+ </para>
+         <para>
+ Mapped to {@code Double} object.</para>
+      </section>
+      <section xreflabel="TYPE_FLOAT"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_FLOAT">
+         <title>public static final String TYPE_FLOAT = "float"</title>
+         <para>
+Floating-point number.
+ </para>
+         <para>
+ Mantissa (left of the decimal) and/or exponent may have a leading sign.
+ Mantissa and/or exponent may have leading zeros. Decimal character in
+ mantissa is a period, i.e., whole digits in mantissa separated from
+ fractional digits by period. Mantissa separated from exponent by E. (No
+ currency symbol.) (No grouping of digits in the mantissa, e.g., no
+ commas.)
+ </para>
+         <para>
+ Mapped to {@code Float} object.</para>
+      </section>
+      <section xreflabel="TYPE_I1"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_I1">
+         <title>public static final String TYPE_I1 = "i1"</title>
+         <para>
+1 Byte int.
+ </para>
+         <para>
+ Mapped to {@code Integer} object.</para>
+      </section>
+      <section xreflabel="TYPE_I2"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_I2">
+         <title>public static final String TYPE_I2 = "i2"</title>
+         <para>
+2 Byte int.
+ </para>
+         <para>
+ Mapped to {@code Integer} object.</para>
+      </section>
+      <section xreflabel="TYPE_I4"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_I4">
+         <title>public static final String TYPE_I4 = "i4"</title>
+         <para>
+4 Byte int.
+ </para>
+         <para>
+ Must be between -2147483648 and 2147483647
+ </para>
+         <para>
+ Mapped to {@code Integer} object.</para>
+      </section>
+      <section xreflabel="TYPE_INT"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_INT">
+         <title>public static final String TYPE_INT = "int"</title>
+         <para>
+Integer number.
+ </para>
+         <para>
+ Mapped to {@code Integer} object.</para>
+      </section>
+      <section xreflabel="TYPE_NUMBER"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_NUMBER">
+         <title>public static final String TYPE_NUMBER = "number"</title>
+         <para>
+Same as r8.
+ </para>
+         <para>
+ Mapped to {@code Double} object.</para>
+      </section>
+      <section xreflabel="TYPE_R4"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_R4">
+         <title>public static final String TYPE_R4 = "r4"</title>
+         <para>
+4 Byte float.
+ </para>
+         <para>
+ Same format as float. Must be between 3.40282347E+38 to 1.17549435E-38.
+ </para>
+         <para>
+ Mapped to {@code Float} object.</para>
+      </section>
+      <section xreflabel="TYPE_R8"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_R8">
+         <title>public static final String TYPE_R8 = "r8"</title>
+         <para>
+8 Byte float.
+ </para>
+         <para>
+ Same format as float. Must be between -1.79769313486232E308 and
+ -4.94065645841247E-324 for negative values, and between
+ 4.94065645841247E-324 and 1.79769313486232E308 for positive values, i.e.,
+ IEEE 64-bit (8-Byte) double.
+ </para>
+         <para>
+ Mapped to {@code Double} object.</para>
+      </section>
+      <section xreflabel="TYPE_STRING"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_STRING">
+         <title>public static final String TYPE_STRING = "string"</title>
+         <para>
+Unicode string.
+ </para>
+         <para>
+ No limit on length.
+ </para>
+         <para>
+ Mapped to {@code String} object.</para>
+      </section>
+      <section xreflabel="TYPE_TIME"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_TIME">
+         <title>public static final String TYPE_TIME = "time"</title>
+         <para>
+An instant of time that recurs every day.
+ </para>
+         <para>
+ Time in a subset of ISO 8601 format with no date and no time zone.
+ </para>
+         <para>
+ See <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                  xlink:href="http://www.w3.org/TR/xmlschema-2/#dateTime">http://www.w3.org
+ /TR/xmlschema-2/#time </link>.
+ </para>
+         <para>
+ Mapped to {@code Long}. Converted to milliseconds since midnight.</para>
+      </section>
+      <section xreflabel="TYPE_TIME_TZ"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_TIME_TZ">
+         <title>public static final String TYPE_TIME_TZ = "time.tz"</title>
+         <para>
+An instant of time that recurs every day.
+ </para>
+         <para>
+ Time in a subset of ISO 8601 format with optional time zone but no date.
+ </para>
+         <para>
+ See <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                  xlink:href="http://www.w3.org/TR/xmlschema-2/#dateTime">http://www.w3.org
+ /TR/xmlschema-2/#time </link>.
+ </para>
+         <para>
+ Mapped to {@code Long} object. Converted to milliseconds since midnight
+ and adjusted to default time zone, wrapping at 0 and 24*60*60*1000.</para>
+      </section>
+      <section xreflabel="TYPE_UI1"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_UI1">
+         <title>public static final String TYPE_UI1 = "ui1"</title>
+         <para>
+Unsigned 1 {@code Byte} int.
+ </para>
+         <para>
+ Mapped to an {@code Integer} object.</para>
+      </section>
+      <section xreflabel="TYPE_UI2"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_UI2">
+         <title>public static final String TYPE_UI2 = "ui2"</title>
+         <para>
+Unsigned 2 Byte int.
+ </para>
+         <para>
+ Mapped to {@code Integer} object.</para>
+      </section>
+      <section xreflabel="TYPE_UI4"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_UI4">
+         <title>public static final String TYPE_UI4 = "ui4"</title>
+         <para>
+Unsigned 4 Byte int.
+ </para>
+         <para>
+ Mapped to {@code Long} object.</para>
+      </section>
+      <section xreflabel="TYPE_URI"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_URI">
+         <title>public static final String TYPE_URI = "uri"</title>
+         <para>
+Universal Resource Identifier.
+ </para>
+         <para>
+ Mapped to {@code String} object.</para>
+      </section>
+      <section xreflabel="TYPE_UUID"
+               role="field"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.TYPE_UUID">
+         <title>public static final String TYPE_UUID = "uuid"</title>
+         <para>
+Universally Unique ID.
+ </para>
+         <para>
+ Hexadecimal digits representing octets. Optional embedded hyphens are
+ ignored.
+ </para>
+         <para>
+ Mapped to {@code String} object.</para>
+      </section>
+      <section xreflabel="getAllowedValues()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.getAllowedValues--">
+         <title>public abstract String[][] getAllowedValues()</title>
+         <para role="description">
+Returns the allowed values, if defined. Allowed values can be defined
+ only for String types.
+ 
+ </para>
+         <para>
+ This method must continue to return the state variable allowed values
+ after the UPnP state variable has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The allowed values or {@code null} if not defined. Should be less
+         than 32 characters.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getDefaultValue()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.getDefaultValue--">
+         <title>public abstract Object getDefaultValue()</title>
+         <para role="description">
+Returns the default value, if defined.
+ 
+ </para>
+         <para>
+ This method must continue to return the state variable default value
+ after the UPnP state variable has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The default value or {@code null} if not defined. The type of the
+         returned object can be determined by {@code getJavaDataType}.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getJavaDataType()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.getJavaDataType--">
+         <title>public abstract Class&lt;?&gt; getJavaDataType()</title>
+         <para role="description">
+Returns the Java class associated with the UPnP data type of this state
+ variable.
+ </para>
+         <para>
+ Mapping between the UPnP data types and Java classes is performed
+ according to the schema mentioned above.
+ 
+ </para>
+         <programlisting> 
+  Integer              ui1, ui2, i1, i2, i4, int
+  Long                 ui4, time, time.tz
+  Float                r4, float
+  Double               r8, number, fixed.14.4
+  Character            char
+  String               string, uri, uuid
+  Date                 date, dateTime, dateTime.tz
+  Boolean              boolean
+  byte[]               bin.base64, bin.hex</programlisting>
+         <para>
+ This method must continue to return the state variable java type after
+ the UPnP state variable has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>A class object corresponding to the Java type of this argument.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getMaximum()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.getMaximum--">
+         <title>public abstract Number getMaximum()</title>
+         <para role="description">
+Returns the maximum value, if defined. Maximum values can only be defined
+ for numeric types.
+ 
+ </para>
+         <para>
+ This method must continue to return the state variable maximum value
+ after the UPnP state variable has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The maximum value or {@code null} if not defined.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getMinimum()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.getMinimum--">
+         <title>public abstract Number getMinimum()</title>
+         <para role="description">
+Returns the minimum value, if defined. Minimum values can only be defined
+ for numeric types.
+ 
+ </para>
+         <para>
+ This method must continue to return the state variable minimum value
+ after the UPnP state variable has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The minimum value or {@code null} if not defined.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getName()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.getName--">
+         <title>public abstract String getName()</title>
+         <para role="description">
+Returns the variable name.
+ 
+ </para>
+         <itemizedlist>
+            <listitem>
+               <para>All standard variables defined by a UPnP Forum working committee must
+ not begin with {@code X_} nor {@code A_}.</para>
+            </listitem>
+            <listitem>
+               <para>All non-standard variables specified by a UPnP vendor and added to a
+ standard service must begin with {@code X_}.</para>
+            </listitem>
+         </itemizedlist>
+         <para>
+ This method must continue to return the state variable name after the
+ UPnP state variable has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>Name of state variable. Must not contain a hyphen character nor a
+         hash character. Should be &lt; 32 characters.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getStep()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.getStep--">
+         <title>public abstract Number getStep()</title>
+         <para role="description">
+Returns the size of an increment operation, if defined. Step sizes can be
+ defined only for numeric types.
+ 
+ </para>
+         <para>
+ This method must continue to return the step size after the UPnP state
+ variable has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The increment size or null if not defined.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getUPnPDataType()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.getUPnPDataType--">
+         <title>public abstract String getUPnPDataType()</title>
+         <para role="description">
+Returns the UPnP type of this state variable. Valid types are defined as
+ constants.
+ 
+ </para>
+         <para>
+ This method must continue to return the state variable UPnP data type
+ after the UPnP state variable has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The UPnP data type of this state variable, as defined in above
+         constants.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="sendsEvents()"
+               role="method"
+               xml:id="org.osgi.service.upnp.UPnPStateVariable.sendsEvents--">
+         <title>public abstract boolean sendsEvents()</title>
+         <para role="description">
+Tells if this StateVariable can be used as an event source.
+ 
+ If the StateVariable is eventable, an event listener service can be
+ registered to be notified when changes to the variable appear.
+ 
+ </para>
+         <para>
+ This method must continue to return the correct value after the UPnP
+ state variable has been removed from the network.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>{@code true} if the {@code StateVariable} generates events,
+         {@code false} otherwise.</para>
+         </formalpara>
+      </section>
+   </section>
+</section>

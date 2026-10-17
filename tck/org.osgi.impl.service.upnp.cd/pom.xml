@@ -13,7 +13,7 @@
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.framework</artifactId>
-			<version>1.10.0</version>
+			<version>${org.osgi.framework.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -25,19 +25,19 @@
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.service.http</artifactId>
-			<version>1.2.2</version>
+			<version>${org.osgi.service.http.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.util.tracker</artifactId>
-			<version>1.5.4</version>
+			<version>${org.osgi.util.tracker.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.geronimo.specs</groupId>
 			<artifactId>geronimo-servlet_3.0_spec</artifactId>
-			<version>1.0</version>
+			<version>${geronimo-servlet_3.0_spec.version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

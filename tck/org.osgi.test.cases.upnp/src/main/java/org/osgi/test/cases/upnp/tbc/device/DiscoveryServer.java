@@ -25,8 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.osgi.test.cases.upnp.tbc.UPnPConstants;
-import org.osgi.test.support.compatibility.DefaultTestBundleControl;
-import org.osgi.test.support.sleep.Sleep;
 
 /**
  * 
@@ -45,7 +43,7 @@ public class DiscoveryServer {
 	}
 
 	public void registerSender(DiscoveryClient client) {
-		DefaultTestBundleControl.log("Starting Discovery messages sender");
+		System.out.println("Starting Discovery messages sender");
 		synchronized (senders) {
 			senders.add(client);
 			Thread th = new Thread(client, "MSG Sender Client");
@@ -65,7 +63,7 @@ public class DiscoveryServer {
 			try {
 				for (int i = 0; i < UPnPConstants.UDP_SEND_COUNT; i++) {
 					msocket.send(p);
-					Sleep.sleep(100);
+					Thread.sleep(100);
 				}
 			}
 			catch (IOException er) {

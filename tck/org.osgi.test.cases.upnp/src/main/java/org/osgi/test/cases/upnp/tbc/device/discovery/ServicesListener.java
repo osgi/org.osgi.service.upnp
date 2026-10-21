@@ -24,7 +24,6 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.upnp.UPnPDevice;
-import org.osgi.test.support.compatibility.DefaultTestBundleControl;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
@@ -80,7 +79,7 @@ public class ServicesListener extends ServiceTracker<UPnPDevice,UPnPDevice> {
 	public UPnPDevice addingService(ServiceReference<UPnPDevice> ref) {
 		UPnPDevice device = super.addingService(ref);
 
-		DefaultTestBundleControl.log("adding UPnP Device " + device);
+		System.out.println("adding UPnP Device " + device);
 		synchronized (this) {
 			size++;
 			last = device;
@@ -88,7 +87,7 @@ public class ServicesListener extends ServiceTracker<UPnPDevice,UPnPDevice> {
 				return device;
 			}
 		}
-		DefaultTestBundleControl.log(desiredCount
+		System.out.println(desiredCount
 				+ " UPnP Devices arrived, signaling waiter");
 		waiter.release();
 		return device;
@@ -96,7 +95,7 @@ public class ServicesListener extends ServiceTracker<UPnPDevice,UPnPDevice> {
 
 	public void removedService(ServiceReference<UPnPDevice> reference,
 			UPnPDevice service) {
-		DefaultTestBundleControl.log("removing UPnP Device " + service);
+		System.out.println("removing UPnP Device " + service);
 		super.removedService(reference, service);
 		synchronized (this) {
 			size--;
@@ -108,7 +107,7 @@ public class ServicesListener extends ServiceTracker<UPnPDevice,UPnPDevice> {
 	}
 
 	public void waitFor(long timeout) throws InterruptedException {
-		DefaultTestBundleControl.log("waiting for UPnP Devices " + timeout);
+		System.out.println("waiting for UPnP Devices " + timeout);
 		waiter.tryAcquire(timeout, TimeUnit.MILLISECONDS);
 	}
 }

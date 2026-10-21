@@ -17,6 +17,10 @@
  *******************************************************************************/
 package org.osgi.test.cases.upnp.tbc;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.fail;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +32,9 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.osgi.framework.Filter;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.http.HttpService;
@@ -41,73 +48,70 @@ import org.osgi.test.cases.upnp.tbc.device.discovery.ServicesListener;
 import org.osgi.test.cases.upnp.tbc.export.UPnPExportedDevice;
 import org.osgi.test.cases.upnp.tbc.parser.XMLParser;
 import org.osgi.test.cases.upnp.tbc.parser.XMLTag;
-import org.osgi.test.support.OSGiTestCaseProperties;
-import org.osgi.test.support.compatibility.DefaultTestBundleControl;
-import org.osgi.test.support.sleep.Sleep;
 
-public class UPnPControl extends DefaultTestBundleControl {
+public class UPnPControl extends UPnPTestSupport {
 	private final int			desiredCount	= 3;
 	private HttpService			http;
 	private TestStarter			start;
 	private ServicesListener	listener;
 
-	protected void setUp() throws Exception {
-		log("Prepare for UPnP Test Case");
+	@BeforeEach
+	public void setUp() throws Exception {
+		System.out.println("Prepare for UPnP Test Case");
 		prepareTestStart();
-		log("Prepared for UPnP Test Case");
+		System.out.println("Prepared for UPnP Test Case");
 	}
 
-	protected void tearDown() throws Exception {
-		log("Tear down UPnP Test Case");
+	@AfterEach
+	public void tearDown() throws Exception {
+		System.out.println("Tear down UPnP Test Case");
 		finalizeTestEnd();
-		log("Torn down UPnP Test Case");
+		System.out.println("Torn down UPnP Test Case");
 	}
 
 	// ==========================================TEST
 	// METHODS====================================================================//
+	@Test
 	public void testDiscovery() {
 		UPnPDevice dev = listener.getUPnPDevice();
-		assertNotNull("UPnPDevice is NULL", dev);
+		assertThat(dev).as("UPnPDevice is NULL").isNotNull();
 		String udn = (String) dev.getDescriptions(null).get(UPnPDevice.UDN);
 		Dictionary<String,Object> dict = dev.getDescriptions(null);
 		String test = (String) dict.get(UPnPDevice.UPC);
-		log("UPnPDevice UPC: " + test);
-		assertEquals("SERVER: " + udn + UPnPConstants.DD + " UPC not matched",
-				UPnPConstants.V_UPC, test);
+		System.out.println("UPnPDevice UPC: " + test);
+		assertThat(test).as("SERVER: " + udn + UPnPConstants.DD + " UPC not matched").isEqualTo(UPnPConstants.V_UPC);
 		test = (String) dict.get(UPnPDevice.FRIENDLY_NAME);
-		log("UPnPDevice FRIENDLY_NAME: " + test);
-		assertEquals("SERVER: " + udn + UPnPConstants.DD
-				+ " Friendly name not matched", UPnPConstants.V_FN, test);
+		System.out.println("UPnPDevice FRIENDLY_NAME: " + test);
+		assertThat(test).as("SERVER: " + udn + UPnPConstants.DD
+				+ " Friendly name not matched").isEqualTo(UPnPConstants.V_FN);
 		test = (String) dict.get(UPnPDevice.MANUFACTURER);
-		log("UPnPDevice MANUFACTURER: " + test);
-		assertEquals("SERVER: " + udn + UPnPConstants.DD
-				+ " Manufacturer not matched", UPnPConstants.V_MANU, test);
+		System.out.println("UPnPDevice MANUFACTURER: " + test);
+		assertThat(test).as("SERVER: " + udn + UPnPConstants.DD
+				+ " Manufacturer not matched").isEqualTo(UPnPConstants.V_MANU);
 		test = (String) dict.get(UPnPDevice.MANUFACTURER_URL);
-		log("UPnPDevice MANUFACTURER_URL: " + test);
-		assertEquals("SERVER: " + udn + UPnPConstants.DD
-				+ " Manufacturer URL not matched", UPnPConstants.V_MANU_URL,
-				test);
+		System.out.println("UPnPDevice MANUFACTURER_URL: " + test);
+		assertThat(test).as("SERVER: " + udn + UPnPConstants.DD
+				+ " Manufacturer URL not matched").isEqualTo(UPnPConstants.V_MANU_URL);
 		test = (String) dict.get(UPnPDevice.MODEL_DESCRIPTION);
-		log("UPnPDevice MODEL_DESCRIPTION: " + test);
-		assertEquals("SERVER: " + udn + UPnPConstants.DD
-				+ " Model Description not matched", UPnPConstants.V_MOD_DESC,
-				test);
+		System.out.println("UPnPDevice MODEL_DESCRIPTION: " + test);
+		assertThat(test).as("SERVER: " + udn + UPnPConstants.DD
+				+ " Model Description not matched").isEqualTo(UPnPConstants.V_MOD_DESC);
 		test = (String) dict.get(UPnPDevice.MODEL_NAME);
-		log("UPnPDevice MODEL_NAME: " + test);
-		assertEquals("SERVER: " + udn + UPnPConstants.DD
-				+ " Model Name not matched", UPnPConstants.V_MOD_NAME, test);
+		System.out.println("UPnPDevice MODEL_NAME: " + test);
+		assertThat(test).as("SERVER: " + udn + UPnPConstants.DD
+				+ " Model Name not matched").isEqualTo(UPnPConstants.V_MOD_NAME);
 		test = (String) dict.get(UPnPDevice.MODEL_NUMBER);
-		log("UPnPDevice MODEL_NUMBER: " + test);
-		assertEquals("SERVER: " + udn + UPnPConstants.DD
-				+ " Model Number not matched", UPnPConstants.V_MOD_NUMB, test);
+		System.out.println("UPnPDevice MODEL_NUMBER: " + test);
+		assertThat(test).as("SERVER: " + udn + UPnPConstants.DD
+				+ " Model Number not matched").isEqualTo(UPnPConstants.V_MOD_NUMB);
 		test = (String) dict.get(UPnPDevice.MODEL_URL);
-		log("UPnPDevice MODEL_URL: " + test);
-		assertEquals("SERVER: " + udn + UPnPConstants.DD
-				+ " Model URL not matched", UPnPConstants.V_MOD_URL, test);
+		System.out.println("UPnPDevice MODEL_URL: " + test);
+		assertThat(test).as("SERVER: " + udn + UPnPConstants.DD
+				+ " Model URL not matched").isEqualTo(UPnPConstants.V_MOD_URL);
 		test = (String) dict.get(UPnPDevice.SERIAL_NUMBER);
-		log("UPnPDevice SERIAL_NUMBER: " + test);
-		assertEquals("SERVER: " + udn + UPnPConstants.DD
-				+ " Serial Number not matched", UPnPConstants.V_SN, test);
+		System.out.println("UPnPDevice SERIAL_NUMBER: " + test);
+		assertThat(test).as("SERVER: " + udn + UPnPConstants.DD
+				+ " Serial Number not matched").isEqualTo(UPnPConstants.V_SN);
 		UPnPIcon[] icos = dev.getIcons("En");
 		if (icos.length == 2) {
 			for (int i = 0; i < icos.length; i++) {
@@ -153,15 +157,14 @@ public class UPnPControl extends DefaultTestBundleControl {
 									+ " Icons are not the same: " + i);
 						}
 						else {
-							log("Compared icons are the same.Icon test is OK");
+							System.out.println("Compared icons are the same.Icon test is OK");
 						}
 						ricon.close();
 						fis.close();
 					}
 					catch (Exception exc) {
 						fail("SERVER: " + udn + UPnPConstants.DD
-								+ " Exception :" + exc + " while icon: " + i,
-								exc);
+								+ " Exception :" + exc + " while icon: " + i, exc);
 					}
 				}
 				else {
@@ -175,24 +178,25 @@ public class UPnPControl extends DefaultTestBundleControl {
 		}
 	}
 
+	@Test
 	public void testControl() {
 		UPnPDevice dev = listener.getUPnPDevice();
-		assertNotNull("UPnPDevice is NULL", dev);
+		assertThat(dev).as("UPnPDevice is NULL").isNotNull();
 		UPnPService cs = dev.getService(UPnPConstants.SCONT_ID);
 		Hashtable<String,Object> hash = new Hashtable<>();
 		hash.put(UPnPConstants.N_IN_OUT, UPnPConstants.V_IN_OUT);
 		UPnPAction act = cs.getAction(UPnPConstants.ACT_PF);
-		log("Invoking an action Post Fail");
+		System.out.println("Invoking an action Post Fail");
 		try {
 			act.invoke(hash);
 			fail("SERVER: Exception not thrown while invoking: "
 					+ UPnPConstants.ACT_PF);
 		}
 		catch (Exception exc) {
-			log("Exception is thrown OK");
+			System.out.println("Exception is thrown OK");
 		}
 		act = cs.getAction(UPnPConstants.ACT_MPF);
-		log("Invoking an action MPost Fail");
+		System.out.println("Invoking an action MPost Fail");
 		try {
 			act.invoke(hash);
 			fail("SERVER: Exception not thrown while invoking: "
@@ -200,30 +204,30 @@ public class UPnPControl extends DefaultTestBundleControl {
 		}
 		catch (Exception exc) {
 			// exc.printStackTrace();
-			log("Exception is thrown OK");
+			System.out.println("Exception is thrown OK");
 		}
 		act = cs.getAction(UPnPConstants.ACT_PB);
-		log("Invoking an action Post Block.Please wait");
+		System.out.println("Invoking an action Post Block.Please wait");
 		try {
 			act.invoke(hash);
 			fail("SERVER: Exception not thrown while invoking: "
 					+ UPnPConstants.ACT_PB);
 		}
 		catch (Exception exc) {
-			log("Exception is thrown OK");
+			System.out.println("Exception is thrown OK");
 		}
 		act = cs.getAction(UPnPConstants.ACT_MPB);
-		log("Invoking an action MPost Block.Please wait");
+		System.out.println("Invoking an action MPost Block.Please wait");
 		try {
 			act.invoke(hash);
 			fail("SERVER: Exception not thrown while invoking: "
 					+ UPnPConstants.ACT_MPB);
 		}
 		catch (Exception exc) {
-			log("Exception is thrown OK");
+			System.out.println("Exception is thrown OK");
 		}
 		act = cs.getAction(UPnPConstants.ACT_POS);
-		log("Invoking an action Post Out Success");
+		System.out.println("Invoking an action Post Out Success");
 		try {
 			Dictionary<String,Object> dict = act.invoke(hash);
 			checkRet(dict);
@@ -232,7 +236,7 @@ public class UPnPControl extends DefaultTestBundleControl {
 			fail("Unexpected Exception", exc);
 		}
 		act = cs.getAction(UPnPConstants.ACT_MPOS);
-		log("Invoking an action MPost Out Success");
+		System.out.println("Invoking an action MPost Out Success");
 		try {
 			Dictionary<String,Object> dict = act.invoke(hash);
 			checkRet(dict);
@@ -252,7 +256,7 @@ public class UPnPControl extends DefaultTestBundleControl {
 		hash.put(UPnPConstants.N_IN_BOOLEAN, UPnPConstants.V_IN_BOOLEAN);
 		hash.put(UPnPConstants.N_IN_HEX, UPnPConstants.V_IN_HEX.getBytes());
 		act = cs.getAction(UPnPConstants.ACT_PIS);
-		log("Invoking an action Post In Success with invalid arguments");
+		System.out.println("Invoking an action Post In Success with invalid arguments");
 		try {
 			act.invoke(hash);
 			fail("SERVER: "
@@ -260,7 +264,7 @@ public class UPnPControl extends DefaultTestBundleControl {
 					+ " Invoke was successful: The UPnP Driver doesn't check action arguments for validity");
 		}
 		catch (Exception exc) {
-			log("Exception is thrown OK");
+			System.out.println("Exception is thrown OK");
 		}
 		hash = new Hashtable<>(9, 1f);
 		hash.put(UPnPConstants.N_IN_INT, Integer.valueOf(UPnPConstants.V_IN_INT));
@@ -273,14 +277,13 @@ public class UPnPControl extends DefaultTestBundleControl {
 		hash.put(UPnPConstants.N_IN_BOOLEAN, Boolean.valueOf(
 				UPnPConstants.V_IN_BOOLEAN));
 		hash.put(UPnPConstants.N_IN_HEX, UPnPConstants.V_IN_HEX.getBytes());
-		log("Invoking an action Post In Success");
+		System.out.println("Invoking an action Post In Success");
 		try {
 			Dictionary<String,Object> dict = act.invoke(hash);
 			if (dict != null) {
 				String res = (String) dict.get(UPnPConstants.N_OUT_OUT);
-				assertEquals("SERVER: " + UPnPConstants.ACT_PIS
-						+ " Invoke Failed: " + res, UPnPConstants.V_OUT_OUT_OK,
-						res);
+				assertThat(res).as("SERVER: " + UPnPConstants.ACT_PIS
+						+ " Invoke Failed: " + res).isEqualTo(UPnPConstants.V_OUT_OUT_OK);
 			}
 		}
 		catch (Exception exc) {
@@ -299,14 +302,13 @@ public class UPnPControl extends DefaultTestBundleControl {
 				UPnPConstants.V_IN_BOOLEAN));
 		hash.put(UPnPConstants.N_IN_HEX, UPnPConstants.V_IN_HEX.getBytes());
 		act = cs.getAction(UPnPConstants.ACT_MPIS);
-		log("Invoking an action MPost In Success");
+		System.out.println("Invoking an action MPost In Success");
 		try {
 			Dictionary<String,Object> dict = act.invoke(hash);
 			if (dict != null) {
 				String res = (String) dict.get(UPnPConstants.N_OUT_OUT);
-				assertEquals("SERVER: " + UPnPConstants.ACT_MPIS
-						+ " Invoking Failed: " + res,
-						UPnPConstants.V_OUT_OUT_OK, res);
+				assertThat(res).as("SERVER: " + UPnPConstants.ACT_MPIS
+						+ " Invoking Failed: " + res).isEqualTo(UPnPConstants.V_OUT_OUT_OK);
 			}
 		}
 		catch (Exception exc) {
@@ -314,21 +316,22 @@ public class UPnPControl extends DefaultTestBundleControl {
 		}
 	}
 
+	@Test
 	public void testEvent() throws Exception {
 		UPnPDevice dev = listener.getUPnPDevice();
-		assertNotNull("UPnPDevice is NULL", dev);
+		assertThat(dev).as("UPnPDevice is NULL").isNotNull();
 		final String udn = (String) dev.getDescriptions(null).get(
 				UPnPDevice.UDN);
 		Hashtable<String,Object> hash = new Hashtable<>();
-		log("Device gets service " + UPnPConstants.SEV_ID);
+		System.out.println("Device gets service " + UPnPConstants.SEV_ID);
 		UPnPService es = dev.getService(UPnPConstants.SEV_ID);
 		final String currentServ = es.getId();
-		Filter filter = getContext().createFilter(
+		Filter filter = context.createFilter(
 				"(&(" + UPnPDevice.ID + "=" + udn + ")(" + UPnPService.ID + "="
 						+ UPnPConstants.SEV_ID + "))");
 		hash.put(UPnPEventListener.UPNP_FILTER, filter);
 		hash.put("upnptest", "true");
-		log("Register UPnPEventListener to listen for events");
+		System.out.println("Register UPnPEventListener to listen for events");
 		final List<Dictionary<String,Object>> vector = new ArrayList<>();
 		UPnPEventListener el = new UPnPEventListener() {
 			private int	ender;
@@ -340,10 +343,10 @@ public class UPnPControl extends DefaultTestBundleControl {
 
 			public void notifyUPnPEvent(String did, String sid,
 					Dictionary<String,Object> vals) {
-				log("SERVER: Received Event for UDN: " + did + " & SID: " + sid
+				System.out.println("SERVER: Received Event for UDN: " + did + " & SID: " + sid
 						+ ".\r\nDictionary: " + vals);
 				if (!did.equals(udn) || !sid.equals(currentServ)) {
-					log("SERVER: Received Event for UDN: " + did + " & SID: "
+					System.out.println("SERVER: Received Event for UDN: " + did + " & SID: "
 							+ sid + ".\r\nExpected UDN: " + udn + " SID: "
 							+ currentServ);
 					return;
@@ -357,17 +360,16 @@ public class UPnPControl extends DefaultTestBundleControl {
 				}
 			}
 		};
-		ServiceRegistration<UPnPEventListener> sr = getContext()
+		ServiceRegistration<UPnPEventListener> sr = context
 				.registerService(UPnPEventListener.class, el, hash);
 		try {
 			synchronized (el) {
 				for (int tries = 0; (tries < 10) && (vector.size() < 10); tries++) {
-					log("Waiting for events: try=" + tries + "; size="
+					System.out.println("Waiting for events: try=" + tries + "; size="
 							+ vector.size());
 					el.wait(10000 * OSGiTestCaseProperties.getScaling());
 				}
-				assertEquals("SERVER: Wrong number of events", 10, vector
-						.size());
+				assertThat(vector).as("SERVER: Wrong number of events").hasSize(10);
 				int evSize = vector.size();
 				for (int i = 0; i < evSize; i++) {
 					Dictionary<String,Object> dict = vector.get(i);
@@ -380,40 +382,41 @@ public class UPnPControl extends DefaultTestBundleControl {
 		}
 	}
 
+	@Test
 	public void testExport() throws Exception {
-		log("Creating new device and making it UPnP device");
+		System.out.println("Creating new device and making it UPnP device");
 		UPnPDevice dev = listener.getUPnPDevice();
-		assertNotNull("UPnPDevice is NULL", dev);
+		assertThat(dev).as("UPnPDevice is NULL").isNotNull();
 		String udn = (String) dev.getDescriptions(null).get(UPnPDevice.UDN);
 		UPnPExportedDevice ex_device = UPnPExportedDevice.newUPnPTestervice();
-		ServiceRegistration<UPnPDevice> sr = getContext().registerService(
+		ServiceRegistration<UPnPDevice> sr = context.registerService(
 				UPnPDevice.class, ex_device,
 				ex_device.getDescriptions(null));
 		try {
-			Sleep.sleep(4000 * OSGiTestCaseProperties.getScaling());
+			Thread.sleep(4000 * OSGiTestCaseProperties.getScaling());
 		}
 		catch (Exception er) {
 			// ignored
 		}
 		try {
-			log("Start export test");
+			System.out.println("Start export test");
 			Hashtable<String,Object> tagHash = new Hashtable<>();
 			Hashtable<String,Object> servsHash = new Hashtable<>();
-			log("Prepare to start my Control Point");
+			System.out.println("Prepare to start my Control Point");
 			ControlPoint cp = new ControlPoint();
 			cp.start();
-			log("Create MSearch package and send it");
+			System.out.println("Create MSearch package and send it");
 			DatagramPacket search = cp.createMSearch();
 			cp.send(search);
 			int count = 0;
 			while (cp.received == null) {
 				count++;
-				Sleep.sleep(50);
+				Thread.sleep(50);
 				if (count == 1000) {
 					fail("No answer is received to an MSearch message");
 				}
 			}
-			log("Parsing received Discovery Response xml");
+			System.out.println("Parsing received Discovery Response xml");
 			String URL_BASE = null;
 			String toParse = cp.received;
 			XMLParser parser = new XMLParser(toParse);
@@ -461,13 +464,13 @@ public class UPnPControl extends DefaultTestBundleControl {
 				}
 			}
 			testProps(udn, tagHash);
-			log("Properties of the exported device are OK");
+			System.out.println("Properties of the exported device are OK");
 			String SERVICE_TYPE = servsHash.get("serviceType").toString();
 			String SCPD_URL = servsHash.get("SCPDURL").toString();
 			String CONTROL_URL = servsHash.get("controlURL").toString();
 
 			String url = URL_BASE + SCPD_URL;
-			log("Get SCPD xml from discovery message");
+			System.out.println("Get SCPD xml from discovery message");
 			String xml = cp.getXML(url);
 			String action = null;
 			Hashtable<String,Vector<String>> names = parseSCPD_XML(xml); // action
@@ -486,20 +489,20 @@ public class UPnPControl extends DefaultTestBundleControl {
 			String host = contrlURL.getHost();
 			int port = contrlURL.getPort();
 			String[] args = changeType(names.get(action));
-			log("Control Server is created and started");
+			System.out.println("Control Server is created and started");
 			ControlServer cps = new ControlServer(host, port);
 			String[] values = new String[] {UPnPConstants.V_OUT_STRING,
 					UPnPConstants.V_OUT_BOOLEAN, UPnPConstants.V_OUT_NUMBER,
 					UPnPConstants.V_OUT_INT, UPnPConstants.V_OUT_CHAR,
 					UPnPConstants.V_OUT_FLOAT};
-			log("Creating Post message and send it");
+			System.out.println("Creating Post message and send it");
 			byte[] post = cp.createPOST(CONTROL_URL, host, port, SERVICE_TYPE,
 					action, args, values);
 			cps.send(post);
 			Thread th = new Thread(cps, "CPS");
 			th.start();
 			while (!cps.isFinished) {
-				Sleep.sleep(100);
+				Thread.sleep(100);
 			}
 			cps.checkAns();
 			eventExportTest();
@@ -512,101 +515,56 @@ public class UPnPControl extends DefaultTestBundleControl {
 		}
 	}
 
+	@Test
 	public void testRemovedExport() throws Exception {
 		UPnPDevice upnpDevice = listener.getUPnPDevice();
-		assertNotNull("UPnP device is NULL!", upnpDevice);
+		assertThat(upnpDevice).as("UPnP device is NULL!").isNotNull();
 		UPnPService upnpService = upnpDevice.getService(UPnPConstants.SCONT_ID);
-		assertNotNull("UPnP service is missing: " + UPnPConstants.SCONT_ID,
-				upnpService);
+		assertThat(upnpService).as("UPnP service is missing: " + UPnPConstants.SCONT_ID).isNotNull();
 		UPnPIcon[] upnpDeviceIcons = upnpDevice.getIcons(null);
-		assertNotNull("No UPnP device icons!", upnpDeviceIcons);
+		assertThat(upnpDeviceIcons).as("No UPnP device icons!").isNotNull();
 		UPnPAction upnpAction = upnpService.getAction(UPnPConstants.ACT_PF);
-		assertNotNull("UPnP action is missing: " + UPnPConstants.ACT_PF
-				+ " for service: " + UPnPConstants.SCONT_ID, upnpAction);
+		assertThat(upnpAction).as("UPnP action is missing: " + UPnPConstants.ACT_PF
+				+ " for service: " + UPnPConstants.SCONT_ID).isNotNull();
 		UPnPStateVariable upnpStateVariable = upnpAction
 				.getStateVariable(UPnPConstants.N_IN_OUT);
-		assertNotNull("UPnP state variable is missing for argument: "
-				+ UPnPConstants.N_IN_OUT, upnpStateVariable);
+		assertThat(upnpStateVariable).as("UPnP state variable is missing for argument: "
+				+ UPnPConstants.N_IN_OUT).isNotNull();
 		finalizeTestEnd();
 
-		assertNotNull("The UPnP device description is missing!",
-				upnpDevice.getDescriptions(null));
-		try {
-			upnpDevice.getIcons(null);
-			fail("The UPnP device icons must not be accessible for a disconnected device!");
-		}
-		catch (IllegalStateException ise) {/* expected exception, go ahead */
-		}
-		try {
-			upnpDevice.getServices();
-			fail("The UPnP device services must not be accessible for a disconnected device!");
-		}
-		catch (IllegalStateException ise) {/* expected exception, go ahead */
-		}
-		try {
-			upnpDevice.getService(UPnPConstants.SEV_ID);
-			fail("The UPnP device service must not be accessible for a disconnected device!");
-		}
-		catch (IllegalStateException ise) {/* expected exception, go ahead */
-		}
+		assertThat(upnpDevice.getDescriptions(null)).as("The UPnP device description is missing!").isNotNull();
+		assertThatExceptionOfType(IllegalStateException.class).as("The UPnP device icons must not be accessible for a disconnected device!")
+				.isThrownBy(() -> upnpDevice.getIcons(null));
+		assertThatExceptionOfType(IllegalStateException.class).as("The UPnP device services must not be accessible for a disconnected device!")
+				.isThrownBy(() -> upnpDevice.getServices());
+		assertThatExceptionOfType(IllegalStateException.class).as("The UPnP device service must not be accessible for a disconnected device!")
+				.isThrownBy(() -> upnpDevice.getService(UPnPConstants.SEV_ID));
 
-		assertNotNull("The UPnP service identifier is missing!",
-				upnpService.getId());
-		assertNotNull("The UPnP service type is missing!",
-				upnpService.getType());
-		assertNotNull("The UPnP service version is missing!",
-				upnpService.getVersion());
-		try {
-			upnpService.getActions();
-			fail("The UPnP service actions must not be accessible for a disconnected device!");
-		}
-		catch (IllegalStateException ise) {/* expected exception, go ahead */
-		}
-		try {
-			upnpService.getAction(UPnPConstants.ACT_PF);
-			fail("The UPnP service actions must not be accessible for a disconnected device!");
-		}
-		catch (IllegalStateException ise) {/* expected exception, go ahead */
-		}
-		try {
-			upnpService.getStateVariables();
-			fail("The UPnP state variables must not be accessible for a disconnected device!");
-		}
-		catch (IllegalStateException ise) {/* expected exception, go ahead */
-		}
+		assertThat(upnpService.getId()).as("The UPnP service identifier is missing!").isNotNull();
+		assertThat(upnpService.getType()).as("The UPnP service type is missing!").isNotNull();
+		assertThat(upnpService.getVersion()).as("The UPnP service version is missing!").isNotNull();
+		assertThatExceptionOfType(IllegalStateException.class).as("The UPnP service actions must not be accessible for a disconnected device!")
+				.isThrownBy(() -> upnpService.getActions());
+		assertThatExceptionOfType(IllegalStateException.class).as("The UPnP service actions must not be accessible for a disconnected device!")
+				.isThrownBy(() -> upnpService.getAction(UPnPConstants.ACT_PF));
+		assertThatExceptionOfType(IllegalStateException.class).as("The UPnP state variables must not be accessible for a disconnected device!")
+				.isThrownBy(() -> upnpService.getStateVariables());
 
-		assertNotNull("The UPnP action name is missing!", upnpAction.getName());
-		assertNotNull("The UPnP action input argument names are missing!",
-				upnpAction.getInputArgumentNames());
-		assertNotNull("The UPnP action output argument names are missing!",
-				upnpAction.getOutputArgumentNames());
-		assertNull("The UPnP action return argument name must be NULL!",
-				upnpAction.getReturnArgumentName());
-		try {
-			upnpAction.getStateVariable(UPnPConstants.N_IN_OUT);
-			fail("The UPnP state variables must not be accessible for a disconnected device!");
-		}
-		catch (IllegalStateException ise) {/* expected exception, go ahead */
-		}
+		assertThat(upnpAction.getName()).as("The UPnP action name is missing!").isNotNull();
+		assertThat(upnpAction.getInputArgumentNames()).as("The UPnP action input argument names are missing!").isNotNull();
+		assertThat(upnpAction.getOutputArgumentNames()).as("The UPnP action output argument names are missing!").isNotNull();
+		assertThat(upnpAction.getReturnArgumentName()).as("The UPnP action return argument name must be NULL!").isNull();
+		assertThatExceptionOfType(IllegalStateException.class).as("The UPnP state variables must not be accessible for a disconnected device!")
+				.isThrownBy(() -> upnpAction.getStateVariable(UPnPConstants.N_IN_OUT));
 
-		assertNull(
-				"The UPnP state variable allowed values must be accessible!",
-				upnpStateVariable.getAllowedValues());
-		assertNull("The UPnP state variable default value must be accessible!",
-				upnpStateVariable.getDefaultValue());
-		assertNotNull("The UPnP state variable java type must be accessible!",
-				upnpStateVariable.getJavaDataType());
-		assertNull("The UPnP state variable maximum must be accessible!",
-				upnpStateVariable.getMaximum());
-		assertNull("The UPnP state variable minimum must be accessible!",
-				upnpStateVariable.getMinimum());
-		assertEquals("The UPnP state variable name is not correct!",
-				UPnPConstants.N_OUT, upnpStateVariable.getName());
-		assertNull("The UPnP state variable step must be accessible!",
-				upnpStateVariable.getStep());
-		assertFalse(
-				"The UPnP state variable event notification must be accessible!",
-				upnpStateVariable.sendsEvents());
+		assertThat(upnpStateVariable.getAllowedValues()).as("The UPnP state variable allowed values must be accessible!").isNull();
+		assertThat(upnpStateVariable.getDefaultValue()).as("The UPnP state variable default value must be accessible!").isNull();
+		assertThat(upnpStateVariable.getJavaDataType()).as("The UPnP state variable java type must be accessible!").isNotNull();
+		assertThat(upnpStateVariable.getMaximum()).as("The UPnP state variable maximum must be accessible!").isNull();
+		assertThat(upnpStateVariable.getMinimum()).as("The UPnP state variable minimum must be accessible!").isNull();
+		assertThat(upnpStateVariable.getName()).as("The UPnP state variable name is not correct!").isEqualTo(UPnPConstants.N_OUT);
+		assertThat(upnpStateVariable.getStep()).as("The UPnP state variable step must be accessible!").isNull();
+		assertThat(upnpStateVariable.sendsEvents()).as("The UPnP state variable event notification must be accessible!").isFalse();
 
 		prepareTestStart();
 	}
@@ -635,134 +593,128 @@ public class UPnPControl extends DefaultTestBundleControl {
 	}
 
 	private void checkRet(Dictionary<String,Object> dict) {
-		assertNotNull(dict);
+		assertThat(dict).isNotNull();
 		String st = new String((byte[]) dict.get(UPnPConstants.N_OUT_HEX));
-		assertEquals("SERVER: " + UPnPConstants.N_OUT_HEX
-				+ " value is not ok: " + st, UPnPConstants.V_OUT_HEX, st);
+		assertThat(st).as("SERVER: " + UPnPConstants.N_OUT_HEX
+				+ " value is not ok: " + st).isEqualTo(UPnPConstants.V_OUT_HEX);
 		Integer inint = (Integer) dict.get(UPnPConstants.N_OUT_INT);
-		assertEquals("SERVER: " + UPnPConstants.N_OUT_INT
-				+ " value is not ok: " + inint, Integer.valueOf(
-				UPnPConstants.V_OUT_INT), inint);
+		assertThat(inint).as("SERVER: " + UPnPConstants.N_OUT_INT
+				+ " value is not ok: " + inint).isEqualTo(Integer.valueOf(
+				UPnPConstants.V_OUT_INT));
 		Long lo = (Long) dict.get(UPnPConstants.N_OUT_UI4);
-		assertEquals("SERVER: " + UPnPConstants.N_OUT_UI4
-				+ " value is not ok: " + lo, Long.valueOf(UPnPConstants.V_OUT_UI4),
-				lo);
+		assertThat(lo).as("SERVER: " + UPnPConstants.N_OUT_UI4
+				+ " value is not ok: " + lo).isEqualTo(Long.valueOf(UPnPConstants.V_OUT_UI4));
 		Float fl = (Float) dict.get(UPnPConstants.N_OUT_FLOAT);
-		assertEquals("SERVER: " + UPnPConstants.N_OUT_FLOAT
-				+ " value is not ok: " + fl, Float.valueOf(
-				UPnPConstants.V_OUT_FLOAT), fl);
+		assertThat(fl).as("SERVER: " + UPnPConstants.N_OUT_FLOAT
+				+ " value is not ok: " + fl).isEqualTo(Float.valueOf(
+				UPnPConstants.V_OUT_FLOAT));
 		Double dl = (Double) dict.get(UPnPConstants.N_OUT_NUMBER);
-		assertEquals("SERVER: " + UPnPConstants.N_OUT_NUMBER
-				+ " value is not ok: " + dl, Double.valueOf(
-				UPnPConstants.V_OUT_NUMBER), dl);
+		assertThat(dl).as("SERVER: " + UPnPConstants.N_OUT_NUMBER
+				+ " value is not ok: " + dl).isEqualTo(Double.valueOf(
+				UPnPConstants.V_OUT_NUMBER));
 		Character ch = (Character) dict.get(UPnPConstants.N_OUT_CHAR);
-		assertEquals("SERVER: " + UPnPConstants.N_OUT_CHAR
-				+ " value is not ok: " + ch, Character.valueOf(
-				UPnPConstants.V_OUT_CHAR.charAt(0)), ch);
+		assertThat(ch).as("SERVER: " + UPnPConstants.N_OUT_CHAR
+				+ " value is not ok: " + ch).isEqualTo(Character.valueOf(
+				UPnPConstants.V_OUT_CHAR.charAt(0)));
 		String str = (String) dict.get(UPnPConstants.N_OUT_STRING);
-		assertEquals("SERVER: " + UPnPConstants.N_OUT_STRING
-				+ " value is not ok: " + str, UPnPConstants.V_OUT_STRING, str);
+		assertThat(str).as("SERVER: " + UPnPConstants.N_OUT_STRING
+				+ " value is not ok: " + str).isEqualTo(UPnPConstants.V_OUT_STRING);
 		Boolean bool = (Boolean) dict.get(UPnPConstants.N_OUT_BOOLEAN);
-		assertEquals("SERVER: " + UPnPConstants.N_OUT_BOOLEAN
-				+ " value is not ok: " + bool, Boolean.valueOf(
-				UPnPConstants.V_OUT_BOOLEAN), bool);
+		assertThat(bool).as("SERVER: " + UPnPConstants.N_OUT_BOOLEAN
+				+ " value is not ok: " + bool).isEqualTo(Boolean.valueOf(
+				UPnPConstants.V_OUT_BOOLEAN));
 	}
 
 	private void testEvent(Dictionary<String,Object> dict, int si) {
-		assertNotNull(dict);
+		assertThat(dict).isNotNull();
 		switch (si) {
 			case 9 : {
 				String str1 = (String) dict.get(UPnPConstants.N_OUT);
-				assertEquals("SERVER: " + UPnPConstants.N_OUT + " " + si
-						+ " value is not ok: " + str1, UPnPConstants.V_OUT,
-						str1);
+				assertThat(str1).as("SERVER: " + UPnPConstants.N_OUT + " " + si
+						+ " value is not ok: " + str1).isEqualTo(UPnPConstants.V_OUT);
 			}
 			case 8 : {
 				String st = new String((byte[]) dict.get(UPnPConstants.N_HEX));
-				assertEquals("SERVER: " + UPnPConstants.N_HEX + " " + si
-						+ " value is not ok: " + st, UPnPConstants.V_HEX, st);
+				assertThat(st).as("SERVER: " + UPnPConstants.N_HEX + " " + si
+						+ " value is not ok: " + st).isEqualTo(UPnPConstants.V_HEX);
 			}
 			case 7 : {
 				Boolean bool = (Boolean) dict.get(UPnPConstants.N_BOOLEAN);
-				assertEquals("SERVER: " + UPnPConstants.N_BOOLEAN + " " + si
-						+ " value is not ok: " + bool, Boolean.valueOf(
-						UPnPConstants.V_BOOLEAN), bool);
+				assertThat(bool).as("SERVER: " + UPnPConstants.N_BOOLEAN + " " + si
+						+ " value is not ok: " + bool).isEqualTo(Boolean.valueOf(
+						UPnPConstants.V_BOOLEAN));
 			}
 			case 6 : {
 				String str = (String) dict.get(UPnPConstants.N_STRING);
-				assertEquals("SERVER: " + UPnPConstants.N_STRING + " " + si
-						+ " value is not ok: " + str, UPnPConstants.V_STRING,
-						str);
+				assertThat(str).as("SERVER: " + UPnPConstants.N_STRING + " " + si
+						+ " value is not ok: " + str).isEqualTo(UPnPConstants.V_STRING);
 			}
 			case 5 : {
 				Character ch = (Character) dict.get(UPnPConstants.N_CHAR);
-				assertEquals("SERVER: " + UPnPConstants.N_CHAR + " " + si
-						+ " value is not ok: " + ch, Character.valueOf(
-						UPnPConstants.V_CHAR.charAt(0)), ch);
+				assertThat(ch).as("SERVER: " + UPnPConstants.N_CHAR + " " + si
+						+ " value is not ok: " + ch).isEqualTo(Character.valueOf(
+						UPnPConstants.V_CHAR.charAt(0)));
 			}
 			case 4 : {
 				Float fl = (Float) dict.get(UPnPConstants.N_FLOAT);
-				assertEquals("SERVER: " + UPnPConstants.N_FLOAT + " " + si
-						+ " value is not ok: " + fl, Float.valueOf(
-						UPnPConstants.V_FLOAT), fl);
+				assertThat(fl).as("SERVER: " + UPnPConstants.N_FLOAT + " " + si
+						+ " value is not ok: " + fl).isEqualTo(Float.valueOf(
+						UPnPConstants.V_FLOAT));
 			}
 			case 3 : {
 				Double dl = (Double) dict.get(UPnPConstants.N_NUMBER);
-				assertEquals("SERVER: " + UPnPConstants.N_NUMBER + " " + si
-						+ " value is not ok: " + dl, Double.valueOf(
-						UPnPConstants.V_NUMBER), dl);
+				assertThat(dl).as("SERVER: " + UPnPConstants.N_NUMBER + " " + si
+						+ " value is not ok: " + dl).isEqualTo(Double.valueOf(
+						UPnPConstants.V_NUMBER));
 			}
 			case 2 : {
 				Long lo = (Long) dict.get(UPnPConstants.N_UI4);
-				assertEquals("SERVER: " + UPnPConstants.N_UI4 + " " + si
-						+ " value is not ok: " + lo, Long.valueOf(
-						UPnPConstants.V_UI4), lo);
+				assertThat(lo).as("SERVER: " + UPnPConstants.N_UI4 + " " + si
+						+ " value is not ok: " + lo).isEqualTo(Long.valueOf(
+						UPnPConstants.V_UI4));
 			}
 			case 1 : {
 				Integer in = (Integer) dict.get(UPnPConstants.N_INT);
-				assertEquals("SERVER: " + UPnPConstants.N_INT + " " + si
-						+ " value is not ok: " + in, Integer.valueOf(
-						UPnPConstants.V_INT), in);
+				assertThat(in).as("SERVER: " + UPnPConstants.N_INT + " " + si
+						+ " value is not ok: " + in).isEqualTo(Integer.valueOf(
+						UPnPConstants.V_INT));
 			}
 		}
 	}
 
 	private void testProps(String udn, Dictionary<String,Object> dic) {
-		assertNotNull(dic);
+		assertThat(dic).isNotNull();
 		String test = dic.get("friendlyName").toString();
-		log("Exported device FRIENDLY_NAME: " + test);
-		assertEquals("EXPORTED: " + udn + UPnPConstants.DD
-				+ " FRINDLY_NAME not matched", UPnPConstants.E_FN, test);
+		System.out.println("Exported device FRIENDLY_NAME: " + test);
+		assertThat(test).as("EXPORTED: " + udn + UPnPConstants.DD
+				+ " FRINDLY_NAME not matched").isEqualTo(UPnPConstants.E_FN);
 		test = dic.get("manufacturer").toString();
-		log("Exported device MANUFACTURER: " + test);
-		assertEquals("EXPORTED: " + udn + UPnPConstants.DD
-				+ " MANUFACTURER not matched", UPnPConstants.E_MANU, test);
+		System.out.println("Exported device MANUFACTURER: " + test);
+		assertThat(test).as("EXPORTED: " + udn + UPnPConstants.DD
+				+ " MANUFACTURER not matched").isEqualTo(UPnPConstants.E_MANU);
 		test = dic.get("manufacturerURL").toString();
-		log("Exported device MANUFACTURER_URL: " + test);
-		assertEquals("EXPORTED: " + udn + UPnPConstants.DD
-				+ " MANUFACTURER_URL not matched", UPnPConstants.E_MANU_URL,
-				test);
+		System.out.println("Exported device MANUFACTURER_URL: " + test);
+		assertThat(test).as("EXPORTED: " + udn + UPnPConstants.DD
+				+ " MANUFACTURER_URL not matched").isEqualTo(UPnPConstants.E_MANU_URL);
 		test = dic.get("modelName").toString();
-		log("Exported device MODEL_NAME: " + test);
-		assertEquals("EXPORTED: " + udn + UPnPConstants.DD
-				+ " MODEL_NAME not matched", UPnPConstants.E_MOD_NAME, test);
+		System.out.println("Exported device MODEL_NAME: " + test);
+		assertThat(test).as("EXPORTED: " + udn + UPnPConstants.DD
+				+ " MODEL_NAME not matched").isEqualTo(UPnPConstants.E_MOD_NAME);
 		test = dic.get("modelNumber").toString();
-		log("Exported device MODEL_NUMBER: " + test);
-		assertEquals("EXPORTED: " + udn + UPnPConstants.DD
-				+ " MODEL_NUMBER not matched", UPnPConstants.E_MOD_NUMB, test);
+		System.out.println("Exported device MODEL_NUMBER: " + test);
+		assertThat(test).as("EXPORTED: " + udn + UPnPConstants.DD
+				+ " MODEL_NUMBER not matched").isEqualTo(UPnPConstants.E_MOD_NUMB);
 		test = dic.get("modelURL").toString();
-		log("Exported device MODEL_URL: " + test);
-		assertEquals("EXPORTED: " + udn + UPnPConstants.DD
-				+ " MODEL_URL not matched", UPnPConstants.E_MOD_URL, test);
+		System.out.println("Exported device MODEL_URL: " + test);
+		assertThat(test).as("EXPORTED: " + udn + UPnPConstants.DD
+				+ " MODEL_URL not matched").isEqualTo(UPnPConstants.E_MOD_URL);
 		test = dic.get("serialNumber").toString();
-		log("Exported device SERIAL_NUMBER: " + test);
-		assertEquals("EXPORTED: " + udn + UPnPConstants.DD
-				+ " SERIAL_NUMBER not matched", UPnPConstants.E_SN, test);
+		System.out.println("Exported device SERIAL_NUMBER: " + test);
+		assertThat(test).as("EXPORTED: " + udn + UPnPConstants.DD
+				+ " SERIAL_NUMBER not matched").isEqualTo(UPnPConstants.E_SN);
 		test = dic.get("UPC").toString();
-		log("Exported device UPC: " + test);
-		assertEquals(
-				"EXPORTED: " + udn + UPnPConstants.DD + " UPC not matched",
-				UPnPConstants.E_UPC, test);
+		System.out.println("Exported device UPC: " + test);
+		assertThat(test).as("EXPORTED: " + udn + UPnPConstants.DD + " UPC not matched").isEqualTo(UPnPConstants.E_UPC);
 	}
 
 	private Hashtable<String,Vector<String>> parseSCPD_XML(String str)
@@ -853,10 +805,10 @@ public class UPnPControl extends DefaultTestBundleControl {
 
 	private void prepareTestStart() throws Exception {
 		http = getService(HttpService.class);
-		log("Register Service Listener to listen for service changes");
-		listener = new ServicesListener(getContext(), desiredCount);
+		System.out.println("Register Service Listener to listen for service changes");
+		listener = new ServicesListener(context, desiredCount);
 		listener.open();
-		log("Start the UPnP Test Starter");
+		System.out.println("Start the UPnP Test Starter");
 		start = new TestStarter(http);
 		listener.waitFor(OSGiTestCaseProperties.getTimeout()
 				* OSGiTestCaseProperties.getScaling());

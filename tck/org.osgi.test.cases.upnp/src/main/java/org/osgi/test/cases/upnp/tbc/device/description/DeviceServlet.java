@@ -39,7 +39,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.osgi.test.cases.upnp.tbc.UPnPConstants;
 import org.osgi.test.cases.upnp.tbc.device.event.EventSender;
-import org.osgi.test.support.compatibility.DefaultTestBundleControl;
 
 /**
  * 
@@ -153,7 +152,7 @@ public class DeviceServlet extends HttpServlet {
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
-		DefaultTestBundleControl.log("{DeviceServlet} - Incoming POST request");
+		System.out.println("{DeviceServlet} - Incoming POST request");
 		String uri = req.getRequestURI();
 		if (uri.equals(UPnPConstants.SR_CON)) {
 			String dsi = req.getParameter(UPnPConstants.DSI);
@@ -164,8 +163,7 @@ public class DeviceServlet extends HttpServlet {
 	}
 
 	public void doMPost(HttpServletRequest req, HttpServletResponse res) {
-		DefaultTestBundleControl
-				.log("{DeviceServlet} - Incoming M-POST request");
+		System.out.println("{DeviceServlet} - Incoming M-POST request");
 		//// try {
 		//// Object xx = null;
 		//// Enumeration en = req.getHeaderNames();
@@ -217,26 +215,23 @@ public class DeviceServlet extends HttpServlet {
 			String actionName) {
 		String env_string = extractStringT(xml, ":Envelope", ">");
 		if (env_string.length() == 0) {
-			DefaultTestBundleControl
-					.log("Unable to find <Envelope> tag in action XML");
+			System.out.println("Unable to find <Envelope> tag in action XML");
 			return null;
 		}
 		String env_ns = extractStringT(env_string, "xmlns:", "=");
 		if (env_ns.length() == 0) {
-			DefaultTestBundleControl
-					.log("Unable to find xmlns definition for <Envelope> tag in action XML");
+			System.out.println("Unable to find xmlns definition for <Envelope> tag in action XML");
 			return null;
 		}
 		String body = extractStringT(xml, "<" + env_ns + ":Body>", "</"
 				+ env_ns + ":Body>");
 		if (body.length() == 0) {
-			DefaultTestBundleControl
-					.log("Unable to find <Body> tag in action XML");
+			System.out.println("Unable to find <Body> tag in action XML");
 			return null;
 		}
 		String act_ns = extractStringT(body, "<", ":" + actionName);
 		if (act_ns.length() == 0) {
-			DefaultTestBundleControl.log("Unable to find the XML NS for <"
+			System.out.println("Unable to find the XML NS for <"
 					+ actionName
 					+ "> or the tag it self in action XML");
 			return null;
@@ -246,13 +241,12 @@ public class DeviceServlet extends HttpServlet {
 				+ actionName + act_xmlns + ">"), ("</" + act_ns + ":"
 				+ actionName + ">"));
 		if (arguments.length() == 0) {
-			DefaultTestBundleControl
-					.log("There are no argumets in the invoke XML, although that is a possible scenario the testcase has no actions with no arguments");
+			System.out.println("There are no argumets in the invoke XML, although that is a possible scenario the testcase has no actions with no arguments");
 			return null;
 		}
 		Dictionary<String,Object> a = parseArgs(arguments);
 		if (a == null) {
-			DefaultTestBundleControl.log("Unable to parse the " + actionName
+			System.out.println("Unable to parse the " + actionName
 					+ " arguments");
 		}
 		return a;
@@ -374,8 +368,7 @@ public class DeviceServlet extends HttpServlet {
 		String actionName = soap.substring(in + 1, soap.length() - 1);
 		Dictionary<String,Object> args = getActionArguments(body, actionName);
 		if (args == null) {
-			DefaultTestBundleControl
-					.log("Error while parsing invoke XML for action "
+			System.out.println("Error while parsing invoke XML for action "
 					.concat(actionName));
 			genError(res, 500, UPnPConstants.ERR_WB);
 			return;
@@ -385,8 +378,7 @@ public class DeviceServlet extends HttpServlet {
 
 	public synchronized void doSubscribe(HttpServletRequest req,
 			HttpServletResponse res) throws IOException {
-		DefaultTestBundleControl
-				.log("{DeviceServlet} - Incoming SUBSCRIBE request");
+		System.out.println("{DeviceServlet} - Incoming SUBSCRIBE request");
 		String uri = req.getRequestURI();
 		if (uri == null || !uri.equals(UPnPConstants.SR_EV)) {
 			res.sendError(400, "Must access event url");
@@ -448,7 +440,7 @@ public class DeviceServlet extends HttpServlet {
 					url = new URL(callback.substring(1, callback.length() - 1));
 				}
 				catch (MalformedURLException mue) {
-					DefaultTestBundleControl.log("Call Back URL: " + callback
+					System.out.println("Call Back URL: " + callback
 							+ " is invalid");
 					res.sendError(412, UPnPConstants.ERR_MICB);
 					return;

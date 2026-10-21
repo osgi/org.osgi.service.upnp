@@ -23,8 +23,6 @@ import org.osgi.test.cases.upnp.tbc.device.description.DServletContext;
 import org.osgi.test.cases.upnp.tbc.device.description.DeviceServlet;
 import org.osgi.test.cases.upnp.tbc.device.discovery.DiscoveryMsgCreator;
 import org.osgi.test.cases.upnp.tbc.device.discovery.DiscoveryMsgSender;
-import org.osgi.test.support.compatibility.DefaultTestBundleControl;
-import org.osgi.test.support.sleep.Sleep;
 
 /**
  *
@@ -37,7 +35,7 @@ public class TestStarter {
 	public TestStarter(HttpService http)
 			throws Exception {
 		DServletContext dscontext = new DServletContext();
-		UPnPControl.log("Register Http Servlet");
+		System.out.println("Register Http Servlet");
 		http.registerServlet(UPnPConstants.SR_DESC, new DeviceServlet(),
 				null, dscontext);
 		http.registerServlet(UPnPConstants.SR_IM, new DeviceServlet(),
@@ -48,8 +46,7 @@ public class TestStarter {
 				null, dscontext);
 		http.registerServlet(UPnPConstants.SR_PRES, new DeviceServlet(),
 				null, dscontext);
-		DefaultTestBundleControl
-				.log("Start Discovery Live and Bye messages creator");
+		System.out.println("Start Discovery Live and Bye messages creator");
 		DiscoveryMsgCreator creator = new DiscoveryMsgCreator();
 		server = new DiscoveryServer();
 		sender = new DiscoveryMsgSender(server, creator);
@@ -59,10 +56,10 @@ public class TestStarter {
 	public void stop(HttpService http) throws Exception {
 		server.unregisterSender(sender);
 		while (!sender.isDone()) {
-			Sleep.sleep(20);
+			Thread.sleep(20);
 		}
 		try {
-			Sleep.sleep(3000);
+			Thread.sleep(3000);
 		}
 		catch (Exception e) {
 			// ignored

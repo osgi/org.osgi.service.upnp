@@ -27,11 +27,9 @@ import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import org.osgi.test.cases.upnp.tbc.OSGiTestCaseProperties;
 import org.osgi.test.cases.upnp.tbc.UPnPConstants;
 import org.osgi.test.cases.upnp.tbc.device.description.Hex;
-import org.osgi.test.support.OSGiTestCaseProperties;
-import org.osgi.test.support.compatibility.DefaultTestBundleControl;
-import org.osgi.test.support.sleep.Sleep;
 
 /**
  *
@@ -48,7 +46,7 @@ public class EventSender implements Runnable {
 	}
 
 	public void run() {
-		DefaultTestBundleControl.log("Sending the initial event");
+		System.out.println("Sending the initial event");
 		Hashtable<String,Object> hash = new Hashtable<>();
 		hash.put(UPnPConstants.N_INT, UPnPConstants.V_INT);
 		hash.put(UPnPConstants.N_UI4, UPnPConstants.V_UI4);
@@ -73,8 +71,7 @@ public class EventSender implements Runnable {
 		// + " and value " + UPnPConstants.V_CHAR);
 		hash.clear();
 		if (sid.indexOf("e") >= 0) {
-			DefaultTestBundleControl
-					.log("Sending event 1 with name " + UPnPConstants.N_INT
+			System.out.println("Sending event 1 with name " + UPnPConstants.N_INT
 					+ " and value " + UPnPConstants.V_INT);
 			hash.put(UPnPConstants.N_INT, UPnPConstants.V_INT);
 			try {
@@ -84,8 +81,7 @@ public class EventSender implements Runnable {
 				exc.printStackTrace();
 			}
 
-			DefaultTestBundleControl
-					.log("Sending event 2 with name " + UPnPConstants.N_UI4
+			System.out.println("Sending event 2 with name " + UPnPConstants.N_UI4
 					+ " and value " + UPnPConstants.V_UI4);
 			hash.put(UPnPConstants.N_UI4, UPnPConstants.V_UI4);
 			try {
@@ -95,7 +91,7 @@ public class EventSender implements Runnable {
 				exc.printStackTrace();
 			}
 
-			DefaultTestBundleControl.log("Sending event 3 with name "
+			System.out.println("Sending event 3 with name "
 					+ UPnPConstants.N_NUMBER + " and value "
 					+ UPnPConstants.V_NUMBER);
 			duble = Double.valueOf(UPnPConstants.V_NUMBER);
@@ -107,7 +103,7 @@ public class EventSender implements Runnable {
 				exc.printStackTrace();
 			}
 
-			DefaultTestBundleControl.log("Sending event 4 with name "
+			System.out.println("Sending event 4 with name "
 					+ UPnPConstants.N_FLOAT + " and value "
 					+ UPnPConstants.V_FLOAT);
 			fl = Float.valueOf(UPnPConstants.V_FLOAT);
@@ -119,7 +115,7 @@ public class EventSender implements Runnable {
 				exc.printStackTrace();
 			}
 
-			DefaultTestBundleControl.log("Sending event 5 with name "
+			System.out.println("Sending event 5 with name "
 					+ UPnPConstants.N_CHAR
 					+ " and value " + UPnPConstants.V_CHAR);
 			hash.put(UPnPConstants.N_CHAR, UPnPConstants.V_CHAR);
@@ -130,7 +126,7 @@ public class EventSender implements Runnable {
 				exc.printStackTrace();
 			}
 
-			DefaultTestBundleControl.log("Sending event 6 with name "
+			System.out.println("Sending event 6 with name "
 					+ UPnPConstants.N_STRING
 					+ " and value " + UPnPConstants.V_STRING);
 			hash.put(UPnPConstants.N_STRING, UPnPConstants.V_STRING);
@@ -141,7 +137,7 @@ public class EventSender implements Runnable {
 				exc.printStackTrace();
 			}
 
-			DefaultTestBundleControl.log("Sending event 7 with name "
+			System.out.println("Sending event 7 with name "
 					+ UPnPConstants.N_BOOLEAN
 					+ " and value " + UPnPConstants.V_BOOLEAN);
 			hash.put(UPnPConstants.N_BOOLEAN, UPnPConstants.V_BOOLEAN);
@@ -152,8 +148,7 @@ public class EventSender implements Runnable {
 				exc.printStackTrace();
 			}
 
-			DefaultTestBundleControl
-					.log("Sending event 8 with name " + UPnPConstants.N_HEX
+			System.out.println("Sending event 8 with name " + UPnPConstants.N_HEX
 							+ " and value " + UPnPConstants.V_HEX);
 			try {
 				hash.put(UPnPConstants.N_HEX, Hex.encode(UPnPConstants.V_HEX
@@ -169,8 +164,7 @@ public class EventSender implements Runnable {
 				exc.printStackTrace();
 			}
 
-			DefaultTestBundleControl
-					.log("Sending event 9 with name " + UPnPConstants.N_OUT
+			System.out.println("Sending event 9 with name " + UPnPConstants.N_OUT
 							+ " and value " + UPnPConstants.V_OUT);
 			hash.put(UPnPConstants.N_OUT, UPnPConstants.V_OUT);
 			try {
@@ -181,7 +175,7 @@ public class EventSender implements Runnable {
 			}
 		}
 		else {
-			DefaultTestBundleControl.log("Sending event 1 with name "
+			System.out.println("Sending event 1 with name "
 					+ UPnPConstants.N_OUT_STR + " and value "
 					+ UPnPConstants.V_OUT_STR);
 			hash.put(UPnPConstants.N_OUT_STR, UPnPConstants.V_OUT_STR);
@@ -266,7 +260,7 @@ public class EventSender implements Runnable {
 		br.close();
 		sock.close();
 		try {
-			Sleep.sleep(1000 * OSGiTestCaseProperties.getScaling());
+			Thread.sleep(1000 * OSGiTestCaseProperties.getScaling());
 		}
 		catch (InterruptedException e) {
 			// ignored

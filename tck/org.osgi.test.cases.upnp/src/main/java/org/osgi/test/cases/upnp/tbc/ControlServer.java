@@ -17,9 +17,8 @@
  *******************************************************************************/
 package org.osgi.test.cases.upnp.tbc;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -118,32 +117,32 @@ public class ControlServer implements Runnable {
 	}
 
 	private static void controlTest(Dictionary<String,String> val) {
-		assertNotNull(val);
+		assertThat(val).isNotNull();
 
 		String str = val.get(UPnPConstants.N_OUT_STRING).toString();
 		log("Received String value in CP:" + str);
-		assertEquals("SERVER: " + UPnPConstants.N_OUT_STRING
-				+ " value is not ok: " + str, UPnPConstants.V_OUT_STRING, str);
+		assertThat(str).as("SERVER: " + UPnPConstants.N_OUT_STRING
+				+ " value is not ok: " + str).isEqualTo(UPnPConstants.V_OUT_STRING);
 
 		str = val.get(UPnPConstants.N_OUT_STR).toString();
 		log("Received String value in CP:" + str);
-		assertEquals("SERVER: " + UPnPConstants.N_OUT_STRING
-				+ " value is not ok: " + str, UPnPConstants.V_OUT_STR, str);
+		assertThat(str).as("SERVER: " + UPnPConstants.N_OUT_STRING
+				+ " value is not ok: " + str).isEqualTo(UPnPConstants.V_OUT_STR);
 
 		str = val.get(UPnPConstants.N_OUT_BOOLEAN).toString();
 		log("Received Boolean value in CP:" + str);
-		assertEquals("SERVER: " + UPnPConstants.N_OUT_BOOLEAN
-				+ " value is not ok: " + str, UPnPConstants.V_OUT_BOOLEAN, str);
+		assertThat(str).as("SERVER: " + UPnPConstants.N_OUT_BOOLEAN
+				+ " value is not ok: " + str).isEqualTo(UPnPConstants.V_OUT_BOOLEAN);
 
 		str = val.get(UPnPConstants.N_OUT_NUMBER).toString();
 		log("Received Number value in CP:" + str);
-		assertEquals("SERVER: " + UPnPConstants.N_OUT_NUMBER
-				+ " value is not ok: " + str, UPnPConstants.V_OUT_NUMBER, str);
+		assertThat(str).as("SERVER: " + UPnPConstants.N_OUT_NUMBER
+				+ " value is not ok: " + str).isEqualTo(UPnPConstants.V_OUT_NUMBER);
 
 		str = val.get(UPnPConstants.N_OUT_INT).toString();
 		log("Received Int value in CP:" + str);
-		assertEquals("SERVER: " + UPnPConstants.N_OUT_INT
-				+ " value is not ok: " + str, UPnPConstants.V_OUT_INT, str);
+		assertThat(str).as("SERVER: " + UPnPConstants.N_OUT_INT
+				+ " value is not ok: " + str).isEqualTo(UPnPConstants.V_OUT_INT);
 
 		str = val.get(UPnPConstants.N_OUT_CHAR).toString();
 		if (str.equals("&quot;")) {
@@ -156,13 +155,13 @@ public class ControlServer implements Runnable {
 					+ str);
 		}
 		log("Received Char value in CP:" + str);
-		assertEquals("SERVER: " + UPnPConstants.N_OUT_CHAR
-				+ " value is not ok: " + str, UPnPConstants.V_OUT_CHAR, str);
+		assertThat(str).as("SERVER: " + UPnPConstants.N_OUT_CHAR
+				+ " value is not ok: " + str).isEqualTo(UPnPConstants.V_OUT_CHAR);
 
 		str = val.get(UPnPConstants.N_OUT_FLOAT).toString();
 		log("Received Float value in CP:" + str);
-		assertEquals("SERVER: " + UPnPConstants.N_OUT_FLOAT
-				+ " value is not ok: " + str, UPnPConstants.V_OUT_FLOAT, str);
+		assertThat(str).as("SERVER: " + UPnPConstants.N_OUT_FLOAT
+				+ " value is not ok: " + str).isEqualTo(UPnPConstants.V_OUT_FLOAT);
 	}
 
 	public void finish() throws Exception {
@@ -170,6 +169,6 @@ public class ControlServer implements Runnable {
 	}
 
 	private static void log(String message) {
-		UPnPControl.log(message);
+		System.out.println(message);
 	}
 }

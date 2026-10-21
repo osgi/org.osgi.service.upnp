@@ -20,7 +20,6 @@ package org.osgi.test.cases.upnp.tbc;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import org.osgi.test.support.OSGiTestCaseProperties;
 
 /**
  * 

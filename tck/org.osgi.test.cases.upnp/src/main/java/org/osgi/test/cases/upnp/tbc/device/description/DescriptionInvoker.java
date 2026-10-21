@@ -25,8 +25,6 @@ import java.util.Hashtable;
 import javax.servlet.http.HttpServletResponse;
 
 import org.osgi.test.cases.upnp.tbc.UPnPConstants;
-import org.osgi.test.support.compatibility.DefaultTestBundleControl;
-import org.osgi.test.support.sleep.Sleep;
 
 /**
  *
@@ -44,7 +42,7 @@ public class DescriptionInvoker {
 			HttpServletResponse res)
 			throws IOException {
 		hash.clear();
-		DefaultTestBundleControl.log("Incoming invoke request for Action: "
+		System.out.println("Incoming invoke request for Action: "
 				+ actionName);
 		if (actionName.equals(UPnPConstants.ACT_POS)) {
 			postOutSucc(serviceType, actionName, args, res);
@@ -186,7 +184,7 @@ public class DescriptionInvoker {
 			Dictionary<String,Object> params,
 			HttpServletResponse res) throws IOException {
 		try {
-			Sleep.sleep(40000L);
+			Thread.sleep(40000L);
 		}
 		catch (InterruptedException exc) {
 			exc.printStackTrace();

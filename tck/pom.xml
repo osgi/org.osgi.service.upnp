@@ -19,7 +19,7 @@
 		<org.eclipse.osgi.version>3.18.100</org.eclipse.osgi.version>
 		<org.osgi.framework.version>1.10.0</org.osgi.framework.version>
 		<org.osgi.service.cm.version>1.6.0</org.osgi.service.cm.version>
-		<org.osgi.service.event.version>1.4.0</org.osgi.service.event.version>
+		<org.osgi.service.event.version>1.4.1</org.osgi.service.event.version>
 		<org.osgi.service.http.version>1.2.2</org.osgi.service.http.version>
 		<org.osgi.util.tracker.version>1.5.4</org.osgi.util.tracker.version>
 		<slf4j.version>1.7.36</slf4j.version>
